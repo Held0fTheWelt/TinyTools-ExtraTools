@@ -1,0 +1,31 @@
+manifestVersion: 1
+platformVersion: "0.x"
+compat: transitional
+generatedBy:
+  tool: fy-platform bootstrap
+  generated_at: "1970-01-01T00:00:00+00:00"
+project:
+  id: sample-project
+  name: Sample Project
+  repository_type: python-project
+roots:
+  source:
+    - src
+  docs:
+    - docs
+suites:
+  docify:
+    roots:
+      - src
+  postmanify:
+    openapi: docs/api/openapi.yaml
+    out_master: postman/OpenAPI.postman_collection.json
+    suites_dir: postman/suites
+  despaghettify:
+    scan_roots:
+      - src
+  contractify:
+    openapi: docs/api/openapi.yaml
+  templatify:
+    template_roots:
+      - templatify/templates

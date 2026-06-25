@@ -1,0 +1,24 @@
+{
+  "schema": "umlworkspace.v1",
+  "id": "workspace.example",
+  "name": "Example Model Workspace",
+  "description": "Sample folder-based workspace for the AI-assisted UML Modeling Workspace.",
+  "paths": {
+    "models": "models",
+    "diagrams": "diagrams",
+    "layouts": "layouts",
+    "proposals": "proposals",
+    "history": "history",
+    "imports": "imports",
+    "exports": "exports",
+    "docs": "docs"
+  },
+  "features": {
+    "agentApi": true,
+    "patchReview": true,
+    "plantUmlImport": true,
+    "mermaidImport": true,
+    "diagramExport": true
+  },
+  "metadata": {}
+}

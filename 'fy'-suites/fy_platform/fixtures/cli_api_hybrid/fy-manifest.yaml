@@ -1,0 +1,20 @@
+manifestVersion: 1
+project:
+  id: cli-api-hybrid
+  name: CLI API Hybrid Fixture
+  repository_type: python-cli-api-hybrid
+suites:
+  docify:
+    roots:
+      - cli
+      - api
+  postmanify:
+    openapi: docs/api/openapi.yaml
+    out_master: postman/Hybrid_OpenAPI.postman_collection.json
+    suites_dir: postman/suites
+  despaghettify:
+    scan_roots:
+      - cli
+      - api
+  contractify:
+    openapi: docs/api/openapi.yaml

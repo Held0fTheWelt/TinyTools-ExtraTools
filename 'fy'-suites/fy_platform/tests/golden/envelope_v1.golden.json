@@ -1,0 +1,36 @@
+{
+  "compatMode": "transitional",
+  "deprecations": [],
+  "envelopeVersion": "1",
+  "evidence": [
+    {
+      "deterministic": true,
+      "kind": "source",
+      "source_path": "docs/api/openapi.yaml"
+    }
+  ],
+  "findings": [
+    {
+      "category": "api",
+      "confidence": 1.0,
+      "id": "F-001",
+      "references": [
+        "docs/api/openapi.yaml"
+      ],
+      "scope": "repository",
+      "severity": "low",
+      "suite": "postmanify",
+      "summary": "example"
+    }
+  ],
+  "generated_at": "2026-01-01T00:00:00+00:00",
+  "manifest_ref": "fy-manifest.yaml",
+  "payload": {
+    "ok": true
+  },
+  "stats": {
+    "n": 1
+  },
+  "suite": "postmanify",
+  "suiteVersion": "0.1.0"
+}

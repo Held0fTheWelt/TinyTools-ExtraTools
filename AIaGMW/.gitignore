@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+.vite/
+*.log
+.logs/
+.env
+.env.local
+sample-workspace/.umlworkspace/cache/
+workspaces/
+test-results/
+playwright-report/

@@ -1,0 +1,25 @@
+{
+  "suite": "postmanify",
+  "truth_domain": "API client surface generation from approved API evidence",
+  "supports_unit_types": [
+    "artifact-type",
+    "workflow",
+    "cli-command"
+  ],
+  "supports_artifact_types": [
+    "documentation-bundle",
+    "unit-index",
+    "relation-graph",
+    "run-manifest",
+    "acceptance-report"
+  ],
+  "supports_relation_types": [
+    "derives-from",
+    "produces",
+    "validates"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ]
+}

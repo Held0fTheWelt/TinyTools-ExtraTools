@@ -1,0 +1,25 @@
+{
+  "suite": "metrify",
+  "truth_domain": "AI usage and cost measurement semantics",
+  "supports_unit_types": [
+    "artifact-type",
+    "workflow",
+    "policy-rule"
+  ],
+  "supports_artifact_types": [
+    "cost-snapshot",
+    "unit-index",
+    "relation-graph",
+    "run-manifest",
+    "acceptance-report"
+  ],
+  "supports_relation_types": [
+    "produces",
+    "consumes",
+    "summarizes"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth"
+  ]
+}

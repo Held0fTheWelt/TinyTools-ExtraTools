@@ -1,0 +1,22 @@
+{
+  "kind": "despaghettify_check",
+  "generated_at_utc": null,
+  "repo_root": "D:\\TinyToolDevelopment\\Tools\\'fy'-suites",
+  "ast": {
+    "total_functions": 0,
+    "total_python_files": 0,
+    "count_over_50_lines": 0,
+    "count_over_100_lines": 0,
+    "count_nesting_ge_3": 0,
+    "count_nesting_ge_4": 0,
+    "count_nesting_ge_5": 0,
+    "count_nesting_ge_6": 0,
+    "count_functions_magic_int_literals_ge_5": 0,
+    "count_functions_duplicate_name_across_files": 0,
+    "count_functions_control_flow_heavy": 0,
+    "c1_files_in_import_cycles_pct": 0.0,
+    "c1_import_graph_files": 0,
+    "c1_files_in_cycles": 0,
+    "top12_longest": []
+  }
+}

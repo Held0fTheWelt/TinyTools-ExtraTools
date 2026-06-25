@@ -1,0 +1,48 @@
+{
+  "schema": "umlmodel.v1",
+  "id": "model.inventory",
+  "name": "Inventory System",
+  "modelType": "class-model",
+  "elements": [
+    {
+      "id": "class.InventoryComponent",
+      "kind": "class",
+      "name": "InventoryComponent",
+      "stereotypes": ["Component"],
+      "responsibilities": ["Owns runtime inventory state"],
+      "properties": [],
+      "methods": [],
+      "constraints": [],
+      "tags": ["runtime", "gameplay"],
+      "metadata": { "origin": "manual", "status": "draft" }
+    },
+    {
+      "id": "class.ItemDefinition",
+      "kind": "class",
+      "name": "ItemDefinition",
+      "stereotypes": ["DataAsset"],
+      "responsibilities": ["Defines static item data"],
+      "properties": [],
+      "methods": [],
+      "constraints": [],
+      "tags": ["data"],
+      "metadata": { "origin": "manual", "status": "draft" }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation.InventoryComponent__association__ItemDefinition",
+      "kind": "association",
+      "from": "class.InventoryComponent",
+      "to": "class.ItemDefinition",
+      "name": "uses item definitions",
+      "fromMultiplicity": "1",
+      "toMultiplicity": "0..*",
+      "navigability": "from_to",
+      "stereotypes": [],
+      "tags": [],
+      "metadata": {}
+    }
+  ],
+  "metadata": { "status": "draft", "tags": ["example"] }
+}

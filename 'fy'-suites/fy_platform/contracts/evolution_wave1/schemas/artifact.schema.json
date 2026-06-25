@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Artifact",
+  "type": "object",
+  "schema_version": "fy.evolution.artifact.schema.v1",
+  "required": [
+    "artifact_id",
+    "artifact_type",
+    "producer_suite",
+    "source_units",
+    "source_artifacts",
+    "run_id",
+    "created_at",
+    "source_revision",
+    "maturity",
+    "evidence_mode",
+    "tracked_or_generated",
+    "render_family",
+    "path",
+    "status"
+  ],
+  "properties": {
+    "artifact_id": {
+      "type": "string"
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "unit-index",
+        "relation-graph",
+        "documentation-bundle",
+        "role-guide",
+        "ai-context-pack",
+        "contract-map",
+        "proof-report",
+        "security-boundary-report",
+        "topology-map",
+        "cost-snapshot",
+        "drift-report",
+        "acceptance-report",
+        "run-manifest",
+        "import-manifest",
+        "coverage-report",
+        "api-inventory",
+        "cli-inventory",
+        "example-index",
+        "code-doc-manifest",
+        "normative-inventory",
+        "claim-proof-status"
+      ]
+    },
+    "producer_suite": {
+      "type": "string"
+    },
+    "source_units": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "source_revision": {
+      "type": "string"
+    },
+    "maturity": {
+      "type": "string",
+      "enum": [
+        "inventory",
+        "skeleton",
+        "evidence-fill",
+        "cross-linked",
+        "governed"
+      ]
+    },
+    "evidence_mode": {
+      "type": "string"
+    },
+    "tracked_or_generated": {
+      "type": "string",
+      "enum": [
+        "tracked",
+        "generated"
+      ]
+    },
+    "render_family": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

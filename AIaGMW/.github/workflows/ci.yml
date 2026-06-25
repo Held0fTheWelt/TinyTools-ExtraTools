@@ -1,0 +1,33 @@
+name: AIaGMW CI
+
+on:
+  push:
+    paths:
+      - "Tools/AIaGMW/**"
+  pull_request:
+    paths:
+      - "Tools/AIaGMW/**"
+
+defaults:
+  run:
+    working-directory: Tools/AIaGMW
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: Tools/AIaGMW/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm exec playwright install chromium --with-deps
+      - run: pnpm test:e2e
+      - run: pnpm build

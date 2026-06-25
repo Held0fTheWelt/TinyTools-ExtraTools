@@ -1,0 +1,5 @@
+output/*
+!output/.gitkeep
+workspace/*
+!workspace/.gitkeep
+!workspace/daytona_shape.example.json

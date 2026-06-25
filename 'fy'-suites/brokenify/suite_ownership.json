@@ -1,0 +1,20 @@
+{
+  "suite": "brokenify",
+  "truth_domain": "compatibility placeholder for bounded breakage and recovery follow-up",
+  "supports_unit_types": [
+    "workflow",
+    "artifact-type"
+  ],
+  "supports_artifact_types": [
+    "drift-report"
+  ],
+  "supports_relation_types": [
+    "documents",
+    "derives-from"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "suite": "templatify",
+  "truth_domain": "render-family and reusable template governance",
+  "supports_unit_types": [
+    "artifact-type",
+    "documentation-unit",
+    "workflow"
+  ],
+  "supports_artifact_types": [
+    "documentation-bundle",
+    "unit-index",
+    "relation-graph",
+    "run-manifest",
+    "drift-report"
+  ],
+  "supports_relation_types": [
+    "renders",
+    "defines",
+    "validates"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ]
+}

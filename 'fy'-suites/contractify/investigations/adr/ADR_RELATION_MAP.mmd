@@ -1,0 +1,111 @@
+graph TD
+    CTR_ADR_0001_RUNTIME_AUTHORITY["ADR-0001: Runtime authority in world-engine"]
+    impl_world_engine_app_story_runtime_manager_py["world-engine/app/story_runtime/manager.py"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|implemented_by| impl_world_engine_app_story_runtime_manager_py
+    impl_world_engine_app_api_http_py["world-engine/app/api/http.py"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|implemented_by| impl_world_engine_app_api_http_py
+    ver_world_engine_tests_test_story_runtime_api_py["world-engine/tests/test_story_runtime_api.py"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|validated_by| ver_world_engine_tests_test_story_runtime_api_py
+    doc_docs_technical_runtime_runtime_authority_and_state_flow_md["docs/technical/runtime/runtime-authority-and-state-flow.md"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -.->|documented_in| doc_docs_technical_runtime_runtime_authority_and_state_flow_md
+    doc_docs_dev_architecture_runtime_authority_and_session_lifecycle_md["docs/dev/architecture/runtime-authority-and-session-lifecycle.md"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -.->|documented_in| doc_docs_dev_architecture_runtime_authority_and_session_lifecycle_md
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE["ADR-0002: Backend session / transitional runtime quarantine"]
+    impl_backend_app_api_v1_session_routes_py["backend/app/api/v1/session_routes.py"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|implemented_by| impl_backend_app_api_v1_session_routes_py
+    impl_backend_app_runtime_session_store_py["backend/app/runtime/session_store.py"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|implemented_by| impl_backend_app_runtime_session_store_py
+    impl_backend_app_services_session_service_py["backend/app/services/session_service.py"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|implemented_by| impl_backend_app_services_session_service_py
+    impl_backend_app_api_v1_world_engine_console_routes_py["backend/app/api/v1/world_engine_console_routes.py"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|implemented_by| impl_backend_app_api_v1_world_engine_console_routes_py
+    ver_backend_tests_test_session_routes_py["backend/tests/test_session_routes.py"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|validated_by| ver_backend_tests_test_session_routes_py
+    ver_backend_tests_test_world_engine_console_routes_py["backend/tests/test_world_engine_console_routes.py"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|validated_by| ver_backend_tests_test_world_engine_console_routes_py
+    doc_docs_technical_architecture_backend_runtime_classification_md["docs/technical/architecture/backend-runtime-classification.md"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -.->|documented_in| doc_docs_technical_architecture_backend_runtime_classification_md
+    doc_docs_technical_runtime_world_engine_authoritative_runtime_and_system_interactions_md["docs/technical/runtime/world_engine_authoritative_runtime_and_system_interactions.md"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -.->|documented_in| doc_docs_technical_runtime_world_engine_authoritative_runtime_and_system_interactions_md
+    CTR_ADR_0003_SCENE_IDENTITY["ADR-0003: Single canonical scene identity surface"]
+    impl_ai_stack_goc_scene_identity_py["ai_stack/goc_scene_identity.py"]
+    CTR_ADR_0003_SCENE_IDENTITY -->|implemented_by| impl_ai_stack_goc_scene_identity_py
+    impl_ai_stack_goc_yaml_authority_py["ai_stack/goc_yaml_authority.py"]
+    CTR_ADR_0003_SCENE_IDENTITY -->|implemented_by| impl_ai_stack_goc_yaml_authority_py
+    ver_ai_stack_tests_test_goc_scene_identity_py["ai_stack/tests/test_goc_scene_identity.py"]
+    CTR_ADR_0003_SCENE_IDENTITY -->|validated_by| ver_ai_stack_tests_test_goc_scene_identity_py
+    doc_docs_MVPs_MVP_VSL_And_GoC_Contracts_VERTICAL_SLICE_CONTRACT_GOC_md["docs/MVPs/MVP_VSL_And_GoC_Contracts/VERTICAL_SLICE_CONTRACT_GOC.md"]
+    CTR_ADR_0003_SCENE_IDENTITY -.->|documented_in| doc_docs_MVPs_MVP_VSL_And_GoC_Contracts_VERTICAL_SLICE_CONTRACT_GOC_md
+    doc_docs_ADR_README_md["docs/ADR/README.md"]
+    CTR_ADR_0003_SCENE_IDENTITY -.->|documented_in| doc_docs_ADR_README_md
+    OBS_WE_STORY_RUNTIME_MANAGER["OBS-WE-STORY-RUNTIME-MANAGER"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|implemented_by| OBS_WE_STORY_RUNTIME_MANAGER
+    OBS_WE_STORY_RUNTIME_MANAGER -->|implements| CTR_ADR_0001_RUNTIME_AUTHORITY
+    OBS_WE_HTTP_API["OBS-WE-HTTP-API"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|implemented_by| OBS_WE_HTTP_API
+    OBS_WE_HTTP_API -->|implements| CTR_ADR_0001_RUNTIME_AUTHORITY
+    VER_WE_STORY_RUNTIME_API_TEST["VER-WE-STORY-RUNTIME-API-TEST"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|validated_by| VER_WE_STORY_RUNTIME_API_TEST
+    VER_WE_STORY_RUNTIME_API_TEST -->|validates| CTR_ADR_0001_RUNTIME_AUTHORITY
+    CTR_RUNTIME_AUTHORITY_STATE_FLOW["CTR-RUNTIME-AUTHORITY-STATE-FLOW"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|documented_in| CTR_RUNTIME_AUTHORITY_STATE_FLOW
+    PRJ_RUNTIME_SESSION_LIFECYCLE["PRJ-RUNTIME-SESSION-LIFECYCLE"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|documented_in| PRJ_RUNTIME_SESSION_LIFECYCLE
+    PRJPATH_docs_dev_onboarding_md["PRJPATH:docs/dev/onboarding.md"]
+    CTR_ADR_0001_RUNTIME_AUTHORITY -->|projected_as| PRJPATH_docs_dev_onboarding_md
+    OBS_BE_SESSION_ROUTES["OBS-BE-SESSION-ROUTES"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|implemented_by| OBS_BE_SESSION_ROUTES
+    OBS_BE_SESSION_ROUTES -->|implements| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    OBS_BE_SESSION_STORE["OBS-BE-SESSION-STORE"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|implemented_by| OBS_BE_SESSION_STORE
+    OBS_BE_SESSION_STORE -->|implements| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    OBS_BE_SESSION_SERVICE["OBS-BE-SESSION-SERVICE"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|implemented_by| OBS_BE_SESSION_SERVICE
+    OBS_BE_SESSION_SERVICE -->|implements| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    OBS_BE_WORLD_ENGINE_CONSOLE_ROUTES["OBS-BE-WORLD-ENGINE-CONSOLE-ROUTES"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|implemented_by| OBS_BE_WORLD_ENGINE_CONSOLE_ROUTES
+    OBS_BE_WORLD_ENGINE_CONSOLE_ROUTES -->|implements| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    ART_backend_tests_test_session_routes_py["ART:backend/tests/test_session_routes.py"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|validated_by| ART_backend_tests_test_session_routes_py
+    ART_backend_tests_test_session_routes_py -->|validates| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    VER_BE_WORLD_ENGINE_CONSOLE_ROUTES_TEST["VER-BE-WORLD-ENGINE-CONSOLE-ROUTES-TEST"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|validated_by| VER_BE_WORLD_ENGINE_CONSOLE_ROUTES_TEST
+    VER_BE_WORLD_ENGINE_CONSOLE_ROUTES_TEST -->|validates| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    CTR_BACKEND_RUNTIME_CLASSIFICATION["CTR-BACKEND-RUNTIME-CLASSIFICATION"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|documented_in| CTR_BACKEND_RUNTIME_CLASSIFICATION
+    CTR_WORLD_ENGINE_SYSTEM_INTERACTIONS["CTR-WORLD-ENGINE-SYSTEM-INTERACTIONS"]
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|documented_in| CTR_WORLD_ENGINE_SYSTEM_INTERACTIONS
+    CTR_ADR_0002_BACKEND_SESSION_QUARANTINE -->|projected_as| PRJPATH_docs_dev_onboarding_md
+    OBS_AI_GOC_SCENE_IDENTITY["OBS-AI-GOC-SCENE-IDENTITY"]
+    CTR_ADR_0003_SCENE_IDENTITY -->|implemented_by| OBS_AI_GOC_SCENE_IDENTITY
+    OBS_AI_GOC_SCENE_IDENTITY -->|implements| CTR_ADR_0003_SCENE_IDENTITY
+    OBS_AI_GOC_YAML_AUTHORITY["OBS-AI-GOC-YAML-AUTHORITY"]
+    CTR_ADR_0003_SCENE_IDENTITY -->|implemented_by| OBS_AI_GOC_YAML_AUTHORITY
+    OBS_AI_GOC_YAML_AUTHORITY -->|implements| CTR_ADR_0003_SCENE_IDENTITY
+    VER_AI_GOC_SCENE_IDENTITY_TEST["VER-AI-GOC-SCENE-IDENTITY-TEST"]
+    CTR_ADR_0003_SCENE_IDENTITY -->|validated_by| VER_AI_GOC_SCENE_IDENTITY_TEST
+    VER_AI_GOC_SCENE_IDENTITY_TEST -->|validates| CTR_ADR_0003_SCENE_IDENTITY
+    CTR_GOC_VERTICAL_SLICE["CTR-GOC-VERTICAL-SLICE"]
+    CTR_ADR_0003_SCENE_IDENTITY -->|documented_in| CTR_GOC_VERTICAL_SLICE
+    ART_docs_ADR_README_md["ART:docs/ADR/README.md"]
+    CTR_ADR_0003_SCENE_IDENTITY -->|documented_in| ART_docs_ADR_README_md
+    CTR_RUNTIME_AUTHORITY_STATE_FLOW -->|derives_from| CTR_ADR_0001_RUNTIME_AUTHORITY
+    CTR_RUNTIME_AUTHORITY_STATE_FLOW -->|documented_in| CTR_ADR_0001_RUNTIME_AUTHORITY
+    CTR_BACKEND_RUNTIME_CLASSIFICATION -->|documented_in| CTR_ADR_0001_RUNTIME_AUTHORITY
+    CTR_BACKEND_RUNTIME_CLASSIFICATION -->|documented_in| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    CTR_WORLD_ENGINE_SYSTEM_INTERACTIONS -->|documented_in| CTR_ADR_0001_RUNTIME_AUTHORITY
+    OBS_BE_SESSION_ROUTES -->|documented_in| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    OBS_BE_SESSION_STORE -->|documented_in| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    OBS_BE_SESSION_SERVICE -->|documented_in| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    OBS_BE_WORLD_ENGINE_CONSOLE_ROUTES -->|documented_in| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    OBS_AI_GOC_SCENE_IDENTITY -->|documented_in| CTR_ADR_0003_SCENE_IDENTITY
+    OBS_AI_GOC_YAML_AUTHORITY -->|documented_in| CTR_ADR_0003_SCENE_IDENTITY
+    VER_AI_GOC_SCENE_IDENTITY_TEST -->|documented_in| CTR_ADR_0003_SCENE_IDENTITY
+    CTR_RUNTIME_AUTHORITY_STATE_FLOW -->|refines| CTR_ADR_0001_RUNTIME_AUTHORITY
+    CTR_BACKEND_RUNTIME_CLASSIFICATION -->|refines| CTR_ADR_0001_RUNTIME_AUTHORITY
+    CTR_BACKEND_RUNTIME_CLASSIFICATION -->|operationalizes| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    CTR_CANONICAL_RUNTIME_CONTRACT["CTR-CANONICAL-RUNTIME-CONTRACT"]
+    CTR_CANONICAL_RUNTIME_CONTRACT -->|depends_on| CTR_ADR_0001_RUNTIME_AUTHORITY
+    CTR_CANONICAL_RUNTIME_CONTRACT -->|depends_on| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    OBS_BE_WORLD_ENGINE_CONSOLE_ROUTES -->|operationalizes| CTR_ADR_0002_BACKEND_SESSION_QUARANTINE
+    CTR_WORLD_ENGINE_SYSTEM_INTERACTIONS -->|depends_on| CTR_ADR_0001_RUNTIME_AUTHORITY

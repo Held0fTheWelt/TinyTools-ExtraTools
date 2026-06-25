@@ -1,0 +1,30 @@
+{
+  "suite": "diagnosta",
+  "truth_domain": "bounded readiness diagnosis, blocker prioritization, and claim-honesty outputs",
+  "supports_unit_types": [
+    "workflow",
+    "claim",
+    "artifact-type"
+  ],
+  "supports_artifact_types": [
+    "readiness-case",
+    "blocker-graph",
+    "handoff-packet",
+    "run-manifest"
+  ],
+  "supports_relation_types": [
+    "summarizes",
+    "prioritizes",
+    "derives-from"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ],
+  "does_not_own": [
+    "contract truth",
+    "test truth",
+    "autonomous fixing"
+  ]
+}

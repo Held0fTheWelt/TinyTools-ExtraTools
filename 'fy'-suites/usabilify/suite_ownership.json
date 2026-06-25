@@ -1,0 +1,26 @@
+{
+  "suite": "usabilify",
+  "truth_domain": "user-facing workflow and interface usability signals",
+  "supports_unit_types": [
+    "workflow",
+    "runtime-surface",
+    "artifact-type"
+  ],
+  "supports_artifact_types": [
+    "usability-audit",
+    "unit-index",
+    "relation-graph",
+    "run-manifest",
+    "coverage-report"
+  ],
+  "supports_relation_types": [
+    "observes",
+    "summarizes",
+    "validates"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ]
+}

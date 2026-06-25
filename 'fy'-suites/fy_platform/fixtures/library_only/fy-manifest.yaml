@@ -1,0 +1,12 @@
+manifestVersion: 1
+project:
+  id: library-only
+  name: Library Only Fixture
+  repository_type: python-library
+suites:
+  docify:
+    roots:
+      - src
+  despaghettify:
+    scan_roots:
+      - src

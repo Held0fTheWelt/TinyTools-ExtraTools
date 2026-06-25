@@ -1,0 +1,10 @@
+{
+  "schema": "umldiagram.v1",
+  "id": "diagram.inventory.class",
+  "name": "Inventory Class Diagram",
+  "diagramType": "class",
+  "modelRefs": ["model.inventory"],
+  "elementRefs": ["class.InventoryComponent", "class.ItemDefinition"],
+  "relationRefs": ["relation.InventoryComponent__association__ItemDefinition"],
+  "metadata": { "status": "draft", "tags": ["example", "inventory"] }
+}

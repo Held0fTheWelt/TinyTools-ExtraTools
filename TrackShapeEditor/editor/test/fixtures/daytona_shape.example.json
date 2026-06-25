@@ -1,0 +1,185 @@
+{
+  "schema": "track_shape.v1",
+  "name": "Daytona Prototype Shape - Synthetic Example",
+  "closed": true,
+  "units": {
+    "source_unit": "meter",
+    "unreal_unit": "centimeter",
+    "scale_to_target_length": true,
+    "target_length_m": 4000.0,
+    "scale_mode": "uniform_xy"
+  },
+  "sampling": {
+    "default_line_samples": 1,
+    "default_curve_samples": 24,
+    "adaptive": true,
+    "max_chord_error_m": 0.35,
+    "max_angle_step_deg": 5.0,
+    "max_sample_length_m": 30.0,
+    "min_sample_length_m": 0.5
+  },
+  "mesh": {
+    "piece_length_m": 20.0,
+    "max_piece_angle_deg": 8.0,
+    "min_piece_length_m": 1.0,
+    "estimate_only": true
+  },
+  "tangents": {
+    "tangent_scale": 0.5,
+    "min_tangent_length_m": 1.0,
+    "max_tangent_length_m": 60.0,
+    "corner_angle_hard_deg": 35.0
+  },
+  "anchors": [
+    {
+      "id": "start_finish",
+      "label": "Start / Finish",
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "tags": [
+        "start"
+      ]
+    },
+    {
+      "id": "turn_1_entry",
+      "label": "Turn 1 Entry",
+      "x": 520.0,
+      "y": 0.0,
+      "z": 0.0,
+      "tags": [
+        "entry"
+      ]
+    },
+    {
+      "id": "turn_1_exit",
+      "label": "Turn 1 Exit",
+      "x": 760.0,
+      "y": -260.0,
+      "z": 0.0,
+      "tags": [
+        "exit"
+      ]
+    },
+    {
+      "id": "backstretch_start",
+      "label": "Backstretch Start",
+      "x": 760.0,
+      "y": -620.0,
+      "z": 0.0
+    },
+    {
+      "id": "backstretch_end",
+      "label": "Backstretch End",
+      "x": -760.0,
+      "y": -620.0,
+      "z": 0.0
+    },
+    {
+      "id": "turn_4_entry",
+      "label": "Turn 4 Entry",
+      "x": -760.0,
+      "y": -260.0,
+      "z": 0.0,
+      "tags": [
+        "entry"
+      ]
+    },
+    {
+      "id": "turn_4_exit",
+      "label": "Turn 4 Exit",
+      "x": -520.0,
+      "y": 0.0,
+      "z": 0.0,
+      "tags": [
+        "exit"
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "id": "frontstretch_right",
+      "label": "Frontstretch Right",
+      "type": "line",
+      "from": "start_finish",
+      "to": "turn_1_entry",
+      "samples": 1
+    },
+    {
+      "id": "turn_1_2",
+      "label": "Turns 1-2",
+      "type": "bezier",
+      "from": "turn_1_entry",
+      "to": "turn_1_exit",
+      "handle_from": {
+        "x": 720.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "handle_to": {
+        "x": 760.0,
+        "y": -120.0,
+        "z": 0.0
+      },
+      "samples": 32,
+      "adaptive": true
+    },
+    {
+      "id": "short_chute_1",
+      "label": "Short Chute 1",
+      "type": "line",
+      "from": "turn_1_exit",
+      "to": "backstretch_start",
+      "samples": 1
+    },
+    {
+      "id": "backstretch",
+      "label": "Backstretch",
+      "type": "line",
+      "from": "backstretch_start",
+      "to": "backstretch_end",
+      "samples": 1
+    },
+    {
+      "id": "short_chute_2",
+      "label": "Short Chute 2",
+      "type": "line",
+      "from": "backstretch_end",
+      "to": "turn_4_entry",
+      "samples": 1
+    },
+    {
+      "id": "turn_3_4",
+      "label": "Turns 3-4",
+      "type": "bezier",
+      "from": "turn_4_entry",
+      "to": "turn_4_exit",
+      "handle_from": {
+        "x": -760.0,
+        "y": -120.0,
+        "z": 0.0
+      },
+      "handle_to": {
+        "x": -720.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "samples": 32,
+      "adaptive": true
+    },
+    {
+      "id": "frontstretch_left",
+      "label": "Frontstretch Left",
+      "type": "line",
+      "from": "turn_4_exit",
+      "to": "start_finish",
+      "samples": 1
+    }
+  ],
+  "metadata": {
+    "author": "Tiny Tool Development",
+    "created_with": "Track Shape Editor Specs v0.1",
+    "source": "manual synthetic example",
+    "notes": "Not real Daytona data. Synthetic placeholder for editor/compiler validation."
+  }
+}

@@ -1,0 +1,59 @@
+/.idea
+AIaGMW/sample-workspace/layouts/inventory.class.layout.json
+reports
+state
+imports
+world_of_shadows_hub.egg-info
+*.log
+*.log
+
+# Local/editor state
+.idea/
+.vscode/
+*.tmp
+*.bak
+*.swp
+
+# Python
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# Node / frontend build output
+node_modules/
+dist/
+build/
+.next/
+.vite/
+coverage/
+tsconfig.tsbuildinfo
+
+# Rust / Tauri build output
+target/
+
+# Local runtime data
+logs/
+data/
+exports/
+Temp/
+tmp/
+.akdb/
+*.sqlite
+*.sqlite3
+*.db
+
+# Tool-specific generated workspaces and outputs
+TinyToolObservatory/observatory.config.json
+TinyToolObservatory/data/
+TinyToolObservatory/logs/
+TinyToolObservatory/exports/
+TinyToolObservatory/docs/reports/
+TrackShapeEditor/output/
+TrackShapeEditor/workspace/

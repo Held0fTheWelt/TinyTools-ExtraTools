@@ -1,0 +1,40 @@
+{
+  "contracts": [
+    {
+      "id": "CTR-NORM-INDEX-001",
+      "title": "Normative contracts index",
+      "summary": "Sample row illustrating discovery payload shape.",
+      "contract_type": "governance_index",
+      "layer": "governance",
+      "status": "active",
+      "version": "unversioned",
+      "authority_level": "normative",
+      "anchor_kind": "document",
+      "anchor_location": "docs/dev/contracts/normative-contracts-index.md",
+      "source_of_truth": true,
+      "derived_from": [],
+      "implemented_by": [],
+      "validated_by": [],
+      "documented_in": [],
+      "projected_as": [],
+      "audiences": ["developer"],
+      "modes": ["specialist"],
+      "scope": "repository",
+      "owner_or_area": "engineering",
+      "confidence": 0.92,
+      "drift_signals": [],
+      "notes": "",
+      "last_verified": "",
+      "change_risk": "unknown",
+      "tags": ["sample"],
+      "discovery_reason": "Sample file — not generated from a live audit."
+    }
+  ],
+  "projections": [],
+  "relations": [],
+  "automation_tiers_sample": {
+    "0.95": "auto_high",
+    "0.75": "curator_review",
+    "0.4": "candidate_only"
+  }
+}

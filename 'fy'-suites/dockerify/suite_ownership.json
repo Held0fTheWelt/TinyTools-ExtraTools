@@ -1,0 +1,25 @@
+{
+  "suite": "dockerify",
+  "truth_domain": "deployment topology and compose/runtime guidance",
+  "supports_unit_types": [
+    "deployment-surface",
+    "workflow",
+    "env-var"
+  ],
+  "supports_artifact_types": [
+    "topology-map",
+    "drift-report",
+    "unit-index",
+    "relation-graph",
+    "run-manifest"
+  ],
+  "supports_relation_types": [
+    "defines",
+    "depends-on",
+    "validates"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-proof-truth"
+  ]
+}

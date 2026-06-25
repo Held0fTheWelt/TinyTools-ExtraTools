@@ -1,0 +1,71 @@
+manifestVersion: 1
+platformVersion: '1.0'
+compat: autark-outbound
+generatedBy:
+  tool: fy-platform bootstrap
+  generated_at: '2026-06-16T00:47:56.700853+00:00'
+project:
+  id: '''fy''-suites'
+  name: '''fy''-suites'
+  repository_type: python-project
+roots:
+  source: []
+  docs: &id003
+  - docs
+  tests: []
+  templates: []
+docsStrategy:
+  tracks: &id001
+  - easy
+  - technical
+  - role-admin
+  - role-developer
+  - role-operator
+  - role-writer
+  - ai-read
+  - status
+  status_pages: true
+  outbound_only: true
+suites:
+  contractify:
+    roots:
+    - docs
+    - src
+    openapi: docs/api/openapi.yaml
+  testify:
+    roots:
+    - tests
+    ci_workflows:
+    - .github/workflows
+  documentify:
+    roots:
+    - docs
+    - src
+    tracks: *id001
+  docify:
+    roots: &id002
+    - src
+  despaghettify:
+    scan_roots: *id002
+    spike_policy: local-and-global
+  templatify:
+    template_roots:
+    - templates
+  usabilify:
+    ui_roots: *id003
+  observifyfy:
+    internal_roots:
+    - docs
+    - docs/ADR
+    role: internal-fy-observability
+  metrify:
+    ledger_root: metrify/state
+    role: ai-usage-observer
+  dockerify:
+    enabled: true
+    compose_roots:
+    - docker-compose.yml
+    - compose.yml
+  postmanify:
+    enabled: true
+    openapi: docs/api/openapi.yaml

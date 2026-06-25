@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "fyUnit",
+  "type": "object",
+  "schema_version": "fy.evolution.fy-unit.schema.v1",
+  "required": [
+    "unit_id",
+    "title",
+    "entity_type",
+    "owner_suite",
+    "source_paths",
+    "summary",
+    "why_it_exists",
+    "contracts",
+    "dependencies",
+    "consumers",
+    "commands",
+    "inputs",
+    "outputs",
+    "failure_modes",
+    "evidence_refs",
+    "roles",
+    "layer_status",
+    "maturity",
+    "last_verified",
+    "stability",
+    "tags"
+  ],
+  "properties": {
+    "unit_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "suite",
+        "package",
+        "module",
+        "class",
+        "function",
+        "cli-command",
+        "contract",
+        "claim",
+        "workflow",
+        "runtime-surface",
+        "deployment-surface",
+        "test-surface",
+        "artifact-type",
+        "env-var",
+        "policy-rule",
+        "documentation-unit",
+        "import-package",
+        "role-view",
+        "proof"
+      ]
+    },
+    "owner_suite": {
+      "type": "string"
+    },
+    "source_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string"
+    },
+    "why_it_exists": {
+      "type": "string"
+    },
+    "contracts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "consumers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "failure_modes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "layer_status": {
+      "type": "object"
+    },
+    "maturity": {
+      "type": "string",
+      "enum": [
+        "inventory",
+        "skeleton",
+        "evidence-fill",
+        "cross-linked",
+        "governed"
+      ]
+    },
+    "last_verified": {
+      "type": "string"
+    },
+    "stability": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

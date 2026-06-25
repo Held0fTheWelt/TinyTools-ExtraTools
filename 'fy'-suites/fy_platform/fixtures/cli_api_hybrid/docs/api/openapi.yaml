@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  title: CliApiHybridFixture
+  version: "0.1.0"
+paths:
+  /api/v1/run:
+    post:
+      tags: [CLI]
+      summary: Run command
+      responses:
+        "202":
+          description: accepted

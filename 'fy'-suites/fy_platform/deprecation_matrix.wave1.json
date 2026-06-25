@@ -1,0 +1,38 @@
+{
+  "version": "1",
+  "policy": "soft-deprecations",
+  "visibility": {
+    "cli_warning": true,
+    "markdown_report_entry": true,
+    "envelope_field": true
+  },
+  "entries": [
+    {
+      "id": "DOCIFY-LEGACY-FALLBACK-001",
+      "suite": "docify",
+      "status": "active-soft",
+      "message": "No fy-manifest.yaml detected; Docify is running in legacy fallback mode.",
+      "replacement": "Run fy-platform bootstrap and configure suites.docify.roots",
+      "introduced_in": "wave-1",
+      "removal_target": "wave-2"
+    },
+    {
+      "id": "POSTMANIFY-LEGACY-NAME-001",
+      "suite": "postmanify",
+      "status": "active-soft",
+      "message": "Legacy default collection naming detected; prefer manifest-driven generic naming.",
+      "replacement": "Configure suites.postmanify.out_master in fy-manifest.yaml",
+      "introduced_in": "wave-1",
+      "removal_target": "wave-2"
+    },
+    {
+      "id": "CONTRACTIFY-LEGACY-FALLBACK-001",
+      "suite": "contractify",
+      "status": "active-soft",
+      "message": "No fy-manifest.yaml detected; Contractify is running in legacy fallback mode.",
+      "replacement": "Run fy-platform bootstrap and configure suites.contractify.openapi",
+      "introduced_in": "wave-1",
+      "removal_target": "wave-2"
+    }
+  ]
+}

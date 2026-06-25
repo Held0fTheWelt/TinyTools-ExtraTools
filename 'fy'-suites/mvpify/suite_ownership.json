@@ -1,0 +1,25 @@
+{
+  "suite": "mvpify",
+  "truth_domain": "intake and normalization of imported packages",
+  "supports_unit_types": [
+    "import-package",
+    "workflow",
+    "artifact-type"
+  ],
+  "supports_artifact_types": [
+    "import-manifest",
+    "drift-report",
+    "unit-index",
+    "relation-graph",
+    "run-manifest"
+  ],
+  "supports_relation_types": [
+    "imports",
+    "derives-from",
+    "produces"
+  ],
+  "prohibited_ownership_zones": [
+    "code-near-truth",
+    "repository-wide-documentation-truth"
+  ]
+}

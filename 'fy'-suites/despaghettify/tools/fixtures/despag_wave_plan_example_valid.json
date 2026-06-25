@@ -1,0 +1,27 @@
+{
+  "schema_version": "1",
+  "ds_id": "DS-099",
+  "slug": "backend_runtime_services",
+  "session_date": "20260410",
+  "completed_wave_ids": [],
+  "next_index": 1,
+  "sub_waves": [
+    {
+      "index": 1,
+      "id": "w01",
+      "goal": "Extract helper module for first seam; keep public API unchanged.",
+      "primary_paths": ["backend/app/__init__.py"],
+      "gate_commands": [
+        "python \"./'fy'-suites/despaghettify/tools/ds005_runtime_import_check.py\"",
+        "pytest tests/runtime -q --no-header"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "w02",
+      "goal": "Thin entrypoint and wire imports.",
+      "primary_paths": ["backend/app/__init__.py"],
+      "gate_commands": ["python \"./'fy'-suites/despaghettify/tools/ds005_runtime_import_check.py\""]
+    }
+  ]
+}

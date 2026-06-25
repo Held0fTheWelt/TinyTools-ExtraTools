@@ -1,0 +1,29 @@
+{
+  "suite": "coda",
+  "truth_domain": "closure-pack assembly, residue reporting, and review-first bundling",
+  "supports_unit_types": [
+    "workflow",
+    "artifact-type",
+    "claim"
+  ],
+  "supports_artifact_types": [
+    "closure-pack",
+    "residue-report",
+    "review-packet",
+    "run-manifest"
+  ],
+  "supports_relation_types": [
+    "summarizes",
+    "packages",
+    "derives-from"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ],
+  "does_not_own": [
+    "proof certification",
+    "autonomous implementation"
+  ]
+}

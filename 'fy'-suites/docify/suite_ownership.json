@@ -1,0 +1,35 @@
+{
+  "suite": "docify",
+  "truth_domain": "code-near truth",
+  "supports_unit_types": [
+    "module",
+    "class",
+    "function",
+    "cli-command",
+    "workflow"
+  ],
+  "supports_artifact_types": [
+    "code-doc-manifest",
+    "coverage-report",
+    "drift-report",
+    "example-index",
+    "unit-index",
+    "relation-graph",
+    "run-manifest",
+    "api-inventory",
+    "cli-inventory"
+  ],
+  "supports_relation_types": [
+    "documents",
+    "summarizes",
+    "depends-on",
+    "contains",
+    "defines",
+    "validates"
+  ],
+  "prohibited_ownership_zones": [
+    "normative-contract-truth",
+    "deployment-topology-truth",
+    "repository-wide-role-doc-ownership"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RunManifest",
+  "type": "object",
+  "schema_version": "fy.evolution.run-manifest.schema.v1",
+  "required": [
+    "run_id",
+    "command",
+    "mode",
+    "lane",
+    "status",
+    "started_at",
+    "finished_at",
+    "actor",
+    "policy_mode",
+    "tool_chain",
+    "emitted_artifacts",
+    "validation_summary",
+    "cost_summary",
+    "residual_notes"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "command": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string"
+    },
+    "lane": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "started_at": {
+      "type": "string"
+    },
+    "finished_at": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "string"
+    },
+    "policy_mode": {
+      "type": "string"
+    },
+    "tool_chain": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "emitted_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validation_summary": {
+      "type": "object"
+    },
+    "cost_summary": {
+      "type": "object"
+    },
+    "residual_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,12 @@
+.env
+.env.*
+*.pem
+*.key
+secrets.yml
+secrets.yaml
+__pycache__/
+.pytest_cache/
+.fydata/
+*/generated/
+*/state/*.tmp
+

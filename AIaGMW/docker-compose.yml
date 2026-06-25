@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./sample-workspace:/workspace
+    environment:
+      - MODEL_WORKSPACE_ROOT=/workspace
+      - AIAGMW_SCHEMA_DIR=/app/docs/Resources/schemas
+      - AIAGMW_HOST=0.0.0.0
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    depends_on:
+      - backend

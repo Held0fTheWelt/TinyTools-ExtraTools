@@ -1,0 +1,27 @@
+{
+  "suite": "observifyfy",
+  "truth_domain": "operational signals and cross-suite observability semantics",
+  "supports_unit_types": [
+    "workflow",
+    "runtime-surface",
+    "artifact-type"
+  ],
+  "supports_artifact_types": [
+    "drift-report",
+    "acceptance-report",
+    "unit-index",
+    "relation-graph",
+    "run-manifest",
+    "ai-context-pack"
+  ],
+  "supports_relation_types": [
+    "consumes",
+    "summarizes",
+    "validates"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ]
+}

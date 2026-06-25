@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "documentify"
+version = "0.0.0"
+description = "Documentify: documentation governance hub for World of Shadows"
+
+[project.scripts]
+documentify = "documentify.tools.hub_cli:main"

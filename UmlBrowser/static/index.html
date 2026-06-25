@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tiny Tool UML Browser</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <aside class="sidebar">
+        <header class="sidebar-header">
+          <div>
+            <h1>UML Browser</h1>
+            <p id="diagramCount">Loading...</p>
+          </div>
+          <div class="header-actions">
+            <button id="importButton" class="tool-button" title="Import diagram" type="button">Import</button>
+            <button id="refreshButton" class="icon-button" title="Refresh diagrams" aria-label="Refresh diagrams">R</button>
+          </div>
+        </header>
+
+        <label class="search-box">
+          <span>Search</span>
+          <input id="searchInput" type="search" autocomplete="off" placeholder="class, route, plugin">
+        </label>
+
+        <div id="rendererStatus" class="renderer-status"></div>
+        <div id="diagramList" class="diagram-list" aria-label="UML diagrams"></div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="title-group">
+            <h2 id="diagramTitle">Select a diagram</h2>
+            <p id="diagramPath"></p>
+          </div>
+          <div class="view-tabs" role="tablist" aria-label="View mode">
+            <button id="plantumlTab" class="tab active" type="button">PlantUML</button>
+            <button id="previewTab" class="tab" type="button">Preview</button>
+            <button id="sourceTab" class="tab" type="button">Source</button>
+          </div>
+          <div class="toolbar" aria-label="Diagram controls">
+            <button id="zoomOutButton" class="icon-button" title="Zoom out" aria-label="Zoom out">-</button>
+            <button id="zoomInButton" class="icon-button" title="Zoom in" aria-label="Zoom in">+</button>
+            <button id="fitButton" class="tool-button" title="Fit diagram" type="button">Fit</button>
+            <button id="resetButton" class="tool-button" title="Reset zoom" type="button">100%</button>
+            <button id="rerenderButton" class="tool-button" title="Render again" type="button">Render</button>
+          </div>
+        </header>
+
+        <section id="messageBar" class="message-bar" hidden></section>
+
+        <section id="diagramStage" class="diagram-stage" aria-label="Diagram viewport">
+          <div id="diagramCanvas" class="diagram-canvas"></div>
+        </section>
+
+        <section id="sourceStage" class="source-stage" hidden>
+          <div class="source-toolbar">
+            <span id="sourceMeta"></span>
+            <button id="saveSourceButton" class="tool-button" type="button" disabled>Save Source</button>
+          </div>
+          <textarea id="sourceEditor" spellcheck="false" aria-label="Diagram source"></textarea>
+        </section>
+      </main>
+    </div>
+
+    <div id="importDialog" class="modal-backdrop" hidden>
+      <form id="importForm" class="modal" aria-modal="true" role="dialog" aria-labelledby="importTitle">
+        <div class="modal-title">
+          <h2 id="importTitle">Import diagram</h2>
+          <button id="cancelImportButton" class="icon-button" type="button" title="Close" aria-label="Close">X</button>
+        </div>
+        <label>
+          Target path
+          <input id="importPath" value="imports/new-diagram.puml" autocomplete="off">
+        </label>
+        <label>
+          Source
+          <textarea id="importSource" spellcheck="false">@startuml Imported Diagram
+title Imported Diagram
+actor User
+component Tool
+User --> Tool : updates content
+@enduml</textarea>
+        </label>
+        <label class="check-row">
+          <input id="importOverwrite" type="checkbox">
+          Overwrite existing file
+        </label>
+        <div class="modal-actions">
+          <button class="tool-button" type="button" id="secondaryCancelImportButton">Cancel</button>
+          <button class="tool-button primary" type="submit">Import</button>
+        </div>
+      </form>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

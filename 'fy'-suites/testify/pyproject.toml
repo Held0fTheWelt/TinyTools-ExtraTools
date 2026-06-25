@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "testify"
+version = "0.0.0"
+description = "Testify: test governance hub for World of Shadows"
+
+[project.scripts]
+testify = "testify.tools.hub_cli:main"

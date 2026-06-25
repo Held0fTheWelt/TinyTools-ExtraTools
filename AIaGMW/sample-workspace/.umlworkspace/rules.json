@@ -1,0 +1,14 @@
+{
+  "schema": "umlrules.v1",
+  "forbiddenDependencies": [
+    {
+      "fromTag": "layer:ui",
+      "toTag": "layer:core",
+      "message": "UI layer must not depend directly on core internals."
+    }
+  ],
+  "packageCycles": {
+    "enabled": true,
+    "severity": "warning"
+  }
+}

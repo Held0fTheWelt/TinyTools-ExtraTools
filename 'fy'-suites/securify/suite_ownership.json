@@ -1,0 +1,26 @@
+{
+  "suite": "securify",
+  "truth_domain": "security constraints and trust boundaries",
+  "supports_unit_types": [
+    "policy-rule",
+    "workflow",
+    "runtime-surface"
+  ],
+  "supports_artifact_types": [
+    "security-boundary-report",
+    "drift-report",
+    "unit-index",
+    "relation-graph",
+    "run-manifest",
+    "coverage-report"
+  ],
+  "supports_relation_types": [
+    "constrains",
+    "validates",
+    "governs"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-proof-truth"
+  ]
+}

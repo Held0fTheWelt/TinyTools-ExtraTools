@@ -1,0 +1,29 @@
+{
+  "suite": "testify",
+  "truth_domain": "proof and verification truth",
+  "supports_unit_types": [
+    "proof",
+    "test-surface",
+    "workflow",
+    "cli-command"
+  ],
+  "supports_artifact_types": [
+    "proof-report",
+    "coverage-report",
+    "claim-proof-status",
+    "relation-graph",
+    "unit-index",
+    "run-manifest"
+  ],
+  "supports_relation_types": [
+    "validates",
+    "proves",
+    "tests",
+    "derives-from",
+    "summarizes"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-contract-truth",
+    "repository-wide-role-doc-ownership"
+  ]
+}

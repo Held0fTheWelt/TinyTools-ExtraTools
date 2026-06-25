@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-04-13T12:00:00+00:00",
+  "repo_root": "/path/to/sample-repo",
+  "prework_reality_doc": "'fy'-suites/contractify/state/PREWORK_REPOSITORY_CONTRACT_REALITY.md",
+  "governance_scope_doc": "'fy'-suites/contractify/CONTRACT_GOVERNANCE_SCOPE.md",
+  "rollout_limits": {
+    "phase1_discovery_contract_ceiling": 30,
+    "mature_inventory_soft_ceiling": 200,
+    "hard_review_ceiling": 500
+  },
+  "automation_policy": {
+    "gte_0_90": "may_auto_classify_high_confidence",
+    "0_60_to_0_89": "curator_review_required",
+    "lt_0_60": "candidate_only_no_auto_anchor"
+  },
+  "contracts": [],
+  "projections": [],
+  "relations": [],
+  "drift_findings": [
+    {
+      "id": "DRF-SAMPLE-001",
+      "drift_class": "anchor_projection",
+      "summary": "Sample drift row illustrating severity + deterministic flag.",
+      "evidence_sources": ["examples/README.md"],
+      "confidence": 0.5,
+      "severity": "informational",
+      "deterministic": false,
+      "recommended_follow_up": "Replace this file with a trimmed export from a real audit when schema changes.",
+      "involved_contract_ids": []
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "CNF-SAMPLE-001",
+      "conflict_type": "duplicate_normative_navigation_target",
+      "summary": "Sample: normative index lists the same resolved markdown target twice.",
+      "sources": [
+        "docs/dev/contracts/normative-contracts-index.md",
+        "docs/technical/shared-runtime.md"
+      ],
+      "confidence": 0.95,
+      "requires_human_review": false,
+      "notes": "Mechanical duplicate-link detection.",
+      "classification": "normative_anchor_ambiguity",
+      "normative_sources": [
+        "docs/dev/contracts/normative-contracts-index.md"
+      ],
+      "observed_or_projection_sources": [],
+      "kind": "conflicting_candidate_anchors",
+      "severity": "high",
+      "normative_candidates": [
+        "docs/dev/contracts/normative-contracts-index.md",
+        "docs/technical/shared-runtime.md"
+      ],
+      "observed_candidates": [],
+      "projection_candidates": []
+    }
+  ],
+  "actionable_units": [
+    "[informational] Sample drift row illustrating severity + deterministic flag. → Replace this file with a trimmed export from a real audit when schema changes.",
+    "[conflict:high|conflict-deterministic] Sample: normative index lists the same resolved markdown target twice. (sources: docs/dev/contracts/normative-contracts-index.md, docs/technical/shared-runtime.md)"
+  ],
+  "stats": {
+    "n_contracts": 0,
+    "n_projections": 0,
+    "n_relations": 0,
+    "n_drifts": 1,
+    "n_conflicts": 1
+  },
+  "disclaimer": "Heuristic drift is evidence for review, not automatic ground truth. Normative authority outranks observed implementation in governance decisions."
+}

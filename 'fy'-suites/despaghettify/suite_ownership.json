@@ -1,0 +1,25 @@
+{
+  "suite": "despaghettify",
+  "truth_domain": "structural complexity findings and anti-monolith evolution guidance",
+  "supports_unit_types": [
+    "workflow",
+    "module",
+    "artifact-type"
+  ],
+  "supports_artifact_types": [
+    "drift-report",
+    "unit-index",
+    "relation-graph",
+    "run-manifest",
+    "coverage-report"
+  ],
+  "supports_relation_types": [
+    "depends-on",
+    "documents",
+    "constrains"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ]
+}

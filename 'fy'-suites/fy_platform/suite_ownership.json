@@ -1,0 +1,27 @@
+{
+  "suite": "fy_platform",
+  "truth_domain": "cross-suite execution, lineage, and shared contract export",
+  "supports_unit_types": [
+    "suite",
+    "workflow",
+    "artifact-type",
+    "runtime-surface"
+  ],
+  "supports_artifact_types": [
+    "schema-export",
+    "run-manifest",
+    "workspace-status-report",
+    "command-reference"
+  ],
+  "supports_relation_types": [
+    "produces",
+    "persists",
+    "validates",
+    "publishes"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ]
+}

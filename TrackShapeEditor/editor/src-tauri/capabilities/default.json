@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Core permissions for the main window. The image tracer runs through a Rust command (std::process), so no extra plugin permissions are required.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

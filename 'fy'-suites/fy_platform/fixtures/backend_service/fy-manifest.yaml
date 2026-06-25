@@ -1,0 +1,18 @@
+manifestVersion: 1
+project:
+  id: backend-service
+  name: Backend Service Fixture
+  repository_type: python-backend
+suites:
+  docify:
+    roots:
+      - src
+  postmanify:
+    openapi: docs/api/openapi.yaml
+    out_master: postman/OpenAPI.postman_collection.json
+    suites_dir: postman/suites
+  despaghettify:
+    scan_roots:
+      - src
+  contractify:
+    openapi: docs/api/openapi.yaml

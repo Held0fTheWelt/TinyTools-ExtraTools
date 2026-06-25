@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SuiteOwnership",
+  "type": "object",
+  "schema_version": "fy.evolution.suite-ownership.schema.v1",
+  "required": [
+    "suite",
+    "truth_domain",
+    "supports_unit_types",
+    "supports_artifact_types",
+    "supports_relation_types",
+    "prohibited_ownership_zones"
+  ],
+  "properties": {
+    "suite": {
+      "type": "string"
+    },
+    "truth_domain": {
+      "type": "string"
+    },
+    "supports_unit_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "supports_artifact_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "supports_relation_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prohibited_ownership_zones": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

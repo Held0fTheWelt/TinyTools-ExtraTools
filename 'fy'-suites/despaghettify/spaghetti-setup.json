@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "description": "DERIVED ONLY — regenerate with: python -m despaghettify.tools setup-sync. Do not edit by hand; spaghetti-setup.md is the sole source of truth. trigger_bars and m7_ref apply to operational anteil_pct (real %), not to ast_heuristic_v2 trigger scores.",
+  "trigger_bars": {
+    "C1": 2,
+    "C2": 8,
+    "C3": 12,
+    "C4": 5,
+    "C5": 0,
+    "C6": 0,
+    "C7": 3
+  },
+  "weights": {
+    "C1": 0.25,
+    "C2": 0.08,
+    "C3": 0.18,
+    "C4": 0.14,
+    "C5": 0.15,
+    "C6": 0.12,
+    "C7": 0.08
+  },
+  "m7_ref": 4.24
+}

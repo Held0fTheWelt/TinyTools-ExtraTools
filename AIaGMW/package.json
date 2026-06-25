@@ -1,0 +1,22 @@
+{
+  "name": "aiagmw",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --parallel --filter @aiagmw/backend --filter @aiagmw/frontend dev",
+    "dev:backend": "pnpm --filter @aiagmw/backend dev",
+    "dev:frontend": "pnpm --filter @aiagmw/frontend dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:e2e": "playwright test",
+    "schema:validate": "pnpm --filter @aiagmw/core test",
+    "workspace:sample": "pnpm --filter @aiagmw/backend workspace:sample"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.53.2",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@10.33.2"
+}

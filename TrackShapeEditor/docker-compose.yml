@@ -1,0 +1,44 @@
+# Track Shape Editor + Python toolchain
+#
+#   python docker-up.py deploy              # build + UI at http://localhost:8080
+#   python docker-up.py dev                 # local Vite (no Docker)
+#   python docker-up.py down                # stop stack
+#   python docker-up.py compile -- --shape /workspace/foo.json --out /output/spline.json
+#   python docker-up.py test                # CI: toolchain-test + editor-test
+
+services:
+  editor:
+    build:
+      context: ./editor
+      dockerfile: Dockerfile
+    ports:
+      - "${EDITOR_PORT:-8080}:80"
+    restart: unless-stopped
+
+  toolchain:
+    image: trackshape-toolchain:latest
+    build:
+      context: ../TrackShape
+      dockerfile: Dockerfile
+    volumes:
+      - ./workspace:/workspace
+      - ./output:/output
+    working_dir: /app
+    profiles:
+      - tools
+
+  toolchain-test:
+    image: trackshape-toolchain:latest
+    command: ["test"]
+    profiles:
+      - ci
+
+  editor-test:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./editor:/app
+      - ../TrackShape/goldens:/TrackShape/goldens:ro
+    command: sh -c "npm ci && npm test"
+    profiles:
+      - ci

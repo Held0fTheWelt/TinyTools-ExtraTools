@@ -1,0 +1,16 @@
+@startuml Tool Context
+title Tool Context
+
+actor "Modeler" as User
+rectangle "Standalone Tool Folder" as Folder {
+  component "UML Browser" as Browser
+  database "Diagram Sources" as Sources
+  component "PlantUML Renderer" as Plant
+  component "Mermaid Preview" as Mermaid
+}
+
+User --> Browser : browse, search, edit
+Browser --> Sources : read/write .puml and .mmd
+Browser --> Plant : render PlantUML SVG
+Browser --> Mermaid : render browser preview
+@enduml

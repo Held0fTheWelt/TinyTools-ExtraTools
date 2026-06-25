@@ -1,0 +1,26 @@
+{
+  "suite": "documentify",
+  "truth_domain": "layered repository documentation synthesis",
+  "supports_unit_types": [
+    "documentation-unit",
+    "role-view",
+    "workflow"
+  ],
+  "supports_artifact_types": [
+    "documentation-bundle",
+    "unit-index",
+    "coverage-report",
+    "stale-report"
+  ],
+  "supports_relation_types": [
+    "projects",
+    "cross-links-to",
+    "derives-from",
+    "summarizes"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-code-truth",
+    "primary-contract-truth",
+    "primary-proof-truth"
+  ]
+}

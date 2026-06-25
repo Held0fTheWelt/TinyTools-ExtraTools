@@ -1,0 +1,2 @@
+Delete these obsolete tracked files manually if they still exist in the target repo:
+state/RUNTIME_MVP_SPINE_ATTACHMENT_2026-04-17.md

@@ -1,0 +1,209 @@
+{
+  "matrixVersion": "1",
+  "generated_by": "wave1_slice0_baseline",
+  "suites": {
+    "despaghettify": {
+      "cli": {
+        "module_entry": "python -m despaghettify.tools",
+        "scripts": [
+          "despag-check",
+          "wos-despag"
+        ]
+      },
+      "help_surfaces": [
+        "check",
+        "solve-preflight",
+        "wave-plan-validate",
+        "open-ds",
+        "autonomous-init",
+        "autonomous-advance",
+        "autonomous-status",
+        "autonomous-verify",
+        "metrics-emit",
+        "trigger-eval",
+        "setup-audit",
+        "setup-sync"
+      ],
+      "exit_codes": {
+        "success": 0,
+        "policy_or_validation_failure": 1,
+        "illegal_transition_or_missing_target": 2,
+        "runtime_or_input_error": 3
+      },
+      "default_output_surface": {
+        "state_dir": "'fy'-suites/despaghettify/state/artifacts",
+        "reports_dir": "'fy'-suites/despaghettify/reports"
+      }
+    },
+    "docify": {
+      "cli": {
+        "module_entry": "python -m docify.tools",
+        "scripts": [
+          "docify"
+        ]
+      },
+      "help_surfaces": [
+        "audit",
+        "drift",
+        "open-doc"
+      ],
+      "exit_codes": {
+        "success": 0,
+        "findings_present": 1,
+        "usage_error": 2,
+        "missing_file_or_repo": 3
+      },
+      "default_output_surface": {
+        "reports_dir": "'fy'-suites/docify/reports",
+        "backlog_file": "'fy'-suites/docify/documentation_implementation_input.md"
+      }
+    },
+    "postmanify": {
+      "cli": {
+        "module_entry": "python -m postmanify.tools",
+        "scripts": [
+          "postmanify"
+        ]
+      },
+      "help_surfaces": [
+        "plan",
+        "generate"
+      ],
+      "exit_codes": {
+        "success": 0,
+        "missing_openapi": 2
+      },
+      "default_output_surface": {
+        "master_collection": "postman/WorldOfShadows_Complete_OpenAPI.postman_collection.json",
+        "suite_directory": "postman/suites",
+        "manifest_file": "postman/postmanify-manifest.json"
+      }
+    },
+    "contractify": {
+      "cli": {
+        "module_entry": "python -m contractify.tools",
+        "scripts": [
+          "contractify"
+        ]
+      },
+      "help_surfaces": [
+        "discover",
+        "audit",
+        "self-check"
+      ],
+      "exit_codes": {
+        "success": 0,
+        "usage_error": 2
+      },
+      "default_output_surface": {
+        "reports_dir": "'fy'-suites/contractify/reports",
+        "examples_dir": "'fy'-suites/contractify/examples"
+      }
+    }
+  },
+  "json_key_surfaces": {
+    "contractify_audit": [
+      "generated_at",
+      "repo_root",
+      "contracts",
+      "projections",
+      "relations",
+      "drift_findings",
+      "conflicts",
+      "actionable_units",
+      "stats"
+    ],
+    "docify_audit": [
+      "repo_root",
+      "roots",
+      "summary",
+      "parse_errors",
+      "findings",
+      "ruff"
+    ],
+    "despag_check": [
+      "kind",
+      "generated_at_utc",
+      "repo_root",
+      "ast",
+      "ds005",
+      "extra_builtins_goc",
+      "extra_runtime_grep"
+    ],
+    "postmanify_manifest": [
+      "generated_at",
+      "openapi_path",
+      "openapi_sha256",
+      "backend_api_prefix",
+      "master_collection",
+      "suites_dir",
+      "sub_suite_files"
+    ]
+  },
+  "known_consuming_workflows": {
+    "github_actions": [
+      ".github/workflows/despaghettify-skills-validate.yml",
+      ".github/workflows/docify-skills-validate.yml"
+    ],
+    "tooling_scripts": [
+      "'fy'-suites/despaghettify/tools/sync_despag_skills.py",
+      "'fy'-suites/docify/tools/sync_docify_skills.py",
+      "'fy'-suites/postmanify/tools/sync_postmanify_skills.py",
+      "'fy'-suites/contractify/tools/sync_contractify_skills.py"
+    ]
+  },
+  "operational_surfaces": {
+    "command_flag_surfaces": {
+      "despaghettify.check": [
+        "--out",
+        "--with-metrics"
+      ],
+      "despaghettify.solve-preflight": [
+        "--ds",
+        "--override-input-list"
+      ],
+      "docify.audit": [
+        "--repo-root",
+        "--root",
+        "--json",
+        "--out",
+        "--envelope-out",
+        "--exit-zero"
+      ],
+      "postmanify.plan": [
+        "--openapi",
+        "--backend-api-prefix",
+        "--envelope-out"
+      ],
+      "postmanify.generate": [
+        "--openapi",
+        "--backend-api-prefix",
+        "--out-master",
+        "--suites-dir",
+        "--envelope-out"
+      ],
+      "contractify.discover": [
+        "--json",
+        "--out",
+        "--max-contracts",
+        "--quiet",
+        "--envelope-out"
+      ],
+      "contractify.audit": [
+        "--json",
+        "--out",
+        "--max-contracts",
+        "--quiet",
+        "--envelope-out"
+      ]
+    },
+    "default_filenames": [
+      "fy-manifest.yaml",
+      "postman/postmanify-manifest.json",
+      "postman/WorldOfShadows_Complete_OpenAPI.postman_collection.json",
+      "'fy'-suites/despaghettify/despaghettification_implementation_input.md",
+      "'fy'-suites/despaghettify/spaghetti-setup.md",
+      "'fy'-suites/despaghettify/spaghetti-setup.json"
+    ]
+  }
+}

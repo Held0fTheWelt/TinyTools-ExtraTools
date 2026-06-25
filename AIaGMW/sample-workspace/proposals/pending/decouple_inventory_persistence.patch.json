@@ -1,0 +1,51 @@
+{
+  "schema": "umlpatch.v1",
+  "id": "proposal.inventory.persistence-port",
+  "title": "Decouple inventory persistence",
+  "intent": "Avoid direct runtime dependency from InventoryComponent to SaveGameManager.",
+  "author": { "type": "agent", "name": "Example Co-Author" },
+  "status": "pending",
+  "risk": "medium",
+  "reasoningSummary": "Introduce a persistence port so runtime inventory can depend on an abstraction instead of directly depending on a persistence implementation.",
+  "operations": [
+    {
+      "op": "add_element",
+      "modelId": "model.inventory",
+      "element": {
+        "id": "interface.IInventoryPersistencePort",
+        "kind": "interface",
+        "name": "IInventoryPersistencePort",
+        "stereotypes": ["Port"],
+        "responsibilities": ["Defines inventory persistence boundary"],
+        "properties": [],
+        "methods": [],
+        "constraints": [],
+        "tags": ["runtime", "persistence-boundary"],
+        "metadata": { "origin": "agent_proposal" }
+      }
+    },
+    {
+      "op": "add_relation",
+      "modelId": "model.inventory",
+      "relation": {
+        "id": "relation.InventoryComponent__depends_on__IInventoryPersistencePort",
+        "kind": "dependency",
+        "from": "class.InventoryComponent",
+        "to": "interface.IInventoryPersistencePort",
+        "name": "depends on persistence port"
+      }
+    },
+    {
+      "op": "add_to_diagram",
+      "diagramId": "diagram.inventory.class",
+      "elementId": "interface.IInventoryPersistencePort"
+    },
+    {
+      "op": "set_node_position",
+      "diagramId": "diagram.inventory.class",
+      "elementId": "interface.IInventoryPersistencePort",
+      "updates": { "x": 320, "y": 420, "width": 280, "height": 120 }
+    }
+  ],
+  "metadata": { "example": true }
+}

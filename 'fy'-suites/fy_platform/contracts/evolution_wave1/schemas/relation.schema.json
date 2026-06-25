@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Relation",
+  "type": "object",
+  "schema_version": "fy.evolution.relation.schema.v1",
+  "required": [
+    "relation_id",
+    "from_id",
+    "to_id",
+    "relation_type",
+    "owner_suite",
+    "evidence_refs",
+    "confidence",
+    "created_at",
+    "last_verified"
+  ],
+  "properties": {
+    "relation_id": {
+      "type": "string"
+    },
+    "from_id": {
+      "type": "string"
+    },
+    "to_id": {
+      "type": "string"
+    },
+    "relation_type": {
+      "type": "string",
+      "enum": [
+        "owns",
+        "emits",
+        "defines",
+        "imports",
+        "derives-from",
+        "depends-on",
+        "contains",
+        "calls",
+        "uses",
+        "extends",
+        "wraps",
+        "documents",
+        "summarizes",
+        "projects",
+        "cross-links-to",
+        "stale-against",
+        "governs",
+        "proves",
+        "validates",
+        "tests",
+        "constrains",
+        "violates",
+        "produces",
+        "consumes",
+        "persists",
+        "renders",
+        "publishes",
+        "matters-to-role",
+        "owned-by-role",
+        "reviewed-by-role"
+      ]
+    },
+    "owner_suite": {
+      "type": "string"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "moderate",
+        "low"
+      ]
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "last_verified": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

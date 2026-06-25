@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://world-of-shadows.local/schemas/autonomous_state.json",
+  "title": "Despaghettify autonomous loop state",
+  "type": "object",
+  "required": ["schema_version", "session_id", "phase", "last_kind", "updated_at_utc"],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "session_id": { "type": "string", "minLength": 8 },
+    "phase": { "type": "string", "enum": ["backlog", "main"] },
+    "last_kind": {
+      "type": "string",
+      "enum": ["init", "backlog_implement", "backlog_solve", "main_check", "main_solve"]
+    },
+    "open_ds_at_init": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^DS-[0-9]+$" }
+    },
+    "last_open_ds_snapshot": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^DS-[0-9]+$" }
+    },
+    "recent_check_json_paths": { "type": "array", "items": { "type": "string" }, "maxItems": 8 },
+    "head_sha_expected": { "type": ["string", "null"] },
+    "stall_counter": { "type": "integer", "minimum": 0 },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["at_utc", "kind"],
+        "properties": {
+          "at_utc": { "type": "string" },
+          "kind": { "type": "string" },
+          "ds": { "type": ["string", "null"] },
+          "check_json": { "type": ["string", "null"] }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

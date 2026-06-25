@@ -1,0 +1,30 @@
+{
+  "suite": "contractify",
+  "truth_domain": "normative boundaries and contract truth",
+  "supports_unit_types": [
+    "contract",
+    "claim",
+    "workflow",
+    "cli-command",
+    "artifact-type"
+  ],
+  "supports_artifact_types": [
+    "contract-map",
+    "normative-inventory",
+    "relation-graph",
+    "unit-index",
+    "run-manifest",
+    "coverage-report"
+  ],
+  "supports_relation_types": [
+    "defines",
+    "governs",
+    "constrains",
+    "derives-from",
+    "validates"
+  ],
+  "prohibited_ownership_zones": [
+    "primary-proof-truth",
+    "repository-wide-role-doc-ownership"
+  ]
+}

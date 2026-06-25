@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fy-suites-autark"
+version = "1.3.0"
+description = "Autark AI-augmented fy suite platform with metrify and stronger docify/documentify quality"
+readme = "README.md"
+requires-python = ">=3.14,<3.15"
+dependencies = ["PyYAML>=6.0"]
+
+[project.scripts]
+fy = "fy_platform.tools.cli:main"
+fy-platform = "fy_platform.tools.cli:main"
+fy-suite = "fy_platform.tools.ai_suite_cli:main"
+contractify = "contractify.tools.hub_cli:main"
+contractify-adapter = "contractify.adapter.cli:main"
+testify = "testify.tools.hub_cli:main"
+testify-adapter = "testify.adapter.cli:main"
+documentify = "documentify.tools.hub_cli:main"
+documentify-adapter = "documentify.adapter.cli:main"
+docify = "docify.tools.hub_cli:main"
+docify-adapter = "docify.adapter.cli:main"
+delagecy = "delagecy.tools.hub_cli:main"
+despag-check = "despaghettify.tools.hub_cli:main"
+despaghettify-adapter = "despaghettify.adapter.cli:main"
+dockerify = "dockerify.tools.hub_cli:main"
+dockerify-adapter = "dockerify.adapter.cli:main"
+postmanify = "postmanify.tools.cli:main"
+postmanify-adapter = "postmanify.adapter.cli:main"
+templatify = "templatify.tools.hub_cli:main"
+templatify-adapter = "templatify.adapter.cli:main"
+usabilify = "usabilify.tools.hub_cli:main"
+usabilify-adapter = "usabilify.adapter.cli:main"
+securify = "securify.tools.hub_cli:main"
+securify-adapter = "securify.adapter.cli:main"
+observifyfy = "observifyfy.tools.hub_cli:main"
+observifyfy-adapter = "observifyfy.adapter.cli:main"
+mvpify = "mvpify.tools.hub_cli:main"
+mvpify-adapter = "mvpify.adapter.cli:main"
+metrify = "metrify.tools.hub_cli:main"
+metrify-adapter = "metrify.adapter.cli:main"
+diagnosta = "diagnosta.tools.hub_cli:main"
+diagnosta-adapter = "diagnosta.adapter.cli:main"
+coda = "coda.tools.hub_cli:main"
+coda-adapter = "coda.adapter.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fy_platform*", "contractify*", "testify*", "documentify*", "docify*", "delagecy*", "despaghettify*", "dockerify*", "postmanify*", "templatify*", "usabilify*", "securify*", "observifyfy*", "mvpify*", "metrify*", "diagnosta*", "coda*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = [
+  "fy_platform/tests",
+  "contractify/adapter/tests",
+  "testify/adapter/tests",
+  "documentify/adapter/tests",
+  "documentify/tools/tests",
+  "docify/adapter/tests",
+  "docify/tools/tests",
+  "delagecy/tools/tests",
+  "despaghettify/adapter/tests",
+  "dockerify/adapter/tests",
+  "postmanify/adapter/tests",
+  "templatify/adapter/tests",
+  "templatify/tools/tests",
+  "usabilify/adapter/tests",
+  "usabilify/tools/tests",
+  "securify/adapter/tests",
+  "securify/tools/tests",
+  "observifyfy/adapter/tests",
+  "observifyfy/tools/tests",
+  "mvpify/adapter/tests",
+  "mvpify/tools/tests",
+  "metrify/adapter/tests",
+  "metrify/tools/tests",
+  "diagnosta/adapter/tests",
+  "diagnosta/tools/tests",
+  "coda/adapter/tests",
+]
