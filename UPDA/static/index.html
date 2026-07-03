@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UPDA</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <header class="sidebar-header">
+          <div>
+            <h1>UPDA</h1>
+            <p id="sidebarStatus">Index loading...</p>
+          </div>
+          <button id="refreshButton" class="icon-button" type="button" title="Refresh index" aria-label="Refresh index">R</button>
+        </header>
+
+        <nav class="section-tabs" aria-label="UPDA sections">
+          <button class="section-tab active" data-view="overview" type="button">Overview</button>
+          <button class="section-tab" data-view="review" type="button">Review</button>
+          <button class="section-tab" data-view="planning" type="button">Planning</button>
+          <button class="section-tab" data-view="deploy" type="button">Deploy</button>
+        </nav>
+
+        <label class="search-box">
+          <span>Search</span>
+          <input id="searchInput" type="search" autocomplete="off" placeholder="project journal, instruction, tag">
+        </label>
+
+        <div class="filters">
+          <select id="kindFilter" aria-label="Kind filter">
+            <option value="all">All kinds</option>
+          </select>
+          <select id="statusFilter" aria-label="Status filter">
+            <option value="all">All statuses</option>
+          </select>
+          <select id="tagFilter" aria-label="Tag filter">
+            <option value="all">All tags</option>
+          </select>
+        </div>
+
+        <div class="selection-strip">
+          <span id="selectionCount">0 selected</span>
+          <button id="clearSelectionButton" class="plain-button" type="button">Clear</button>
+        </div>
+
+        <div id="itemList" class="item-list" aria-label="Indexed UPDA records"></div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="title-group">
+            <h2 id="viewTitle">Overview</h2>
+            <p id="viewSubtitle">Blueprint Journals and derived projects</p>
+          </div>
+          <div class="topbar-actions">
+            <button id="selectCurrentButton" class="tool-button" type="button" disabled>Select Record</button>
+            <button id="packageSelectionButton" class="tool-button primary" type="button" disabled>Package Selection</button>
+          </div>
+        </header>
+
+        <section id="messageBar" class="message-bar" hidden></section>
+
+        <section id="overviewView" class="view active-view"></section>
+        <section id="reviewView" class="view"></section>
+        <section id="planningView" class="view"></section>
+        <section id="deployView" class="view"></section>
+      </main>
+    </div>
+
+    <div id="packageDialog" class="modal-backdrop" hidden>
+      <form id="packageForm" class="modal" aria-modal="true" role="dialog" aria-labelledby="packageTitle">
+        <div class="modal-title">
+          <h2 id="packageTitle">Create planning package</h2>
+          <button id="closePackageDialogButton" class="icon-button" type="button" title="Close" aria-label="Close">X</button>
+        </div>
+        <label>
+          Title
+          <input id="packageTitleInput" autocomplete="off" placeholder="Blueprint port review slice">
+        </label>
+        <div class="modal-grid">
+          <label>
+            Priority
+            <select id="packagePriorityInput">
+              <option value="P0">P0</option>
+              <option value="P1" selected>P1</option>
+              <option value="P2">P2</option>
+              <option value="P3">P3</option>
+            </select>
+          </label>
+          <label>
+            Status
+            <select id="packageStatusInput">
+              <option value="draft" selected>draft</option>
+              <option value="review">review</option>
+              <option value="ready">ready</option>
+              <option value="deployed">deployed</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          Notes
+          <textarea id="packageNotesInput" spellcheck="true" placeholder="Why these records belong together."></textarea>
+        </label>
+        <div class="modal-actions">
+          <button id="cancelPackageButton" class="tool-button" type="button">Cancel</button>
+          <button class="tool-button primary" type="submit">Create</button>
+        </div>
+      </form>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

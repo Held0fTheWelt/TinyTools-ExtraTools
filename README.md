@@ -12,6 +12,7 @@ This repository contains local, Docker-friendly extra tools for Tiny Tool Develo
 | `TrackShape/` | Embedded Git repository pointer for the TrackShape compiler/tracing toolchain. Its inner repository state is managed separately. |
 | `TrackShapeEditor/` | Track shape editor and desktop/web UI for authoring, validating, compiling, and exporting track shape data. |
 | `UmlBrowser/` | Local PlantUML and Mermaid browser with Docker and standalone Python startup options. |
+| `UPDA/` | Unreal Project Design Assistant for reviewing Blueprint Journals, derived project cases, planning packages, and deploy preparation plans. |
 
 Tiny Tool Observatory lives in the main Tiny Tool Development Git repository at `Git/Tools/TinyToolObservatory`, not in this extra-tools repository.
 
