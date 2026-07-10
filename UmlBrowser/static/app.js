@@ -1,8 +1,13 @@
 const state = {
   diagrams: [],
   filtered: [],
+  compositions: [],
+  compositionPayload: null,
   current: null,
+  currentComposition: null,
   currentSource: "",
+  currentWebPreviewUrl: "",
+  explorerMode: "diagrams",
   mode: "plantuml",
   scale: 1,
   tx: 24,
@@ -11,32 +16,49 @@ const state = {
   sourceDirty: false,
   dragStart: { x: 0, y: 0, tx: 0, ty: 0 },
   renderer: null,
+  umlRoot: "",
 };
 
 const elements = {
   diagramCount: document.querySelector("#diagramCount"),
   diagramList: document.querySelector("#diagramList"),
+  compositionList: document.querySelector("#compositionList"),
   diagramTitle: document.querySelector("#diagramTitle"),
   diagramPath: document.querySelector("#diagramPath"),
   rendererStatus: document.querySelector("#rendererStatus"),
   searchInput: document.querySelector("#searchInput"),
   refreshButton: document.querySelector("#refreshButton"),
   importButton: document.querySelector("#importButton"),
+  diagramsModeButton: document.querySelector("#diagramsModeButton"),
+  compositionsModeButton: document.querySelector("#compositionsModeButton"),
+  diagramFilters: document.querySelector("#diagramFilters"),
+  scopeFilter: document.querySelector("#scopeFilter"),
+  familyFilter: document.querySelector("#familyFilter"),
+  groupFilter: document.querySelector("#groupFilter"),
   messageBar: document.querySelector("#messageBar"),
   diagramStage: document.querySelector("#diagramStage"),
   diagramCanvas: document.querySelector("#diagramCanvas"),
+  modelStage: document.querySelector("#modelStage"),
+  modelPanel: document.querySelector("#modelPanel"),
   sourceStage: document.querySelector("#sourceStage"),
   sourceEditor: document.querySelector("#sourceEditor"),
   sourceMeta: document.querySelector("#sourceMeta"),
   saveSourceButton: document.querySelector("#saveSourceButton"),
+  compositionStage: document.querySelector("#compositionStage"),
+  compositionPanel: document.querySelector("#compositionPanel"),
   plantumlTab: document.querySelector("#plantumlTab"),
   previewTab: document.querySelector("#previewTab"),
+  modelTab: document.querySelector("#modelTab"),
   sourceTab: document.querySelector("#sourceTab"),
+  compositionTab: document.querySelector("#compositionTab"),
   zoomOutButton: document.querySelector("#zoomOutButton"),
   zoomInButton: document.querySelector("#zoomInButton"),
   fitButton: document.querySelector("#fitButton"),
   resetButton: document.querySelector("#resetButton"),
   rerenderButton: document.querySelector("#rerenderButton"),
+  openSvgButton: document.querySelector("#openSvgButton"),
+  webPreviewButton: document.querySelector("#webPreviewButton"),
+  fullscreenButton: document.querySelector("#fullscreenButton"),
   importDialog: document.querySelector("#importDialog"),
   importForm: document.querySelector("#importForm"),
   importPath: document.querySelector("#importPath"),
@@ -71,7 +93,7 @@ async function postApi(path, body) {
 }
 
 function escapeHtml(value) {
-  return value
+  return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -89,13 +111,57 @@ function setMessage(message, tone = "warning") {
   elements.messageBar.dataset.tone = tone;
 }
 
+function updateToolbarState() {
+  const hasDiagram = Boolean(state.current);
+  const diagramView = hasDiagram && ["plantuml", "preview"].includes(state.mode);
+  for (const button of [elements.zoomOutButton, elements.zoomInButton, elements.fitButton, elements.resetButton, elements.fullscreenButton]) {
+    button.disabled = !diagramView;
+  }
+  elements.rerenderButton.disabled = !hasDiagram || state.current.format !== "plantuml";
+  elements.openSvgButton.disabled = !hasDiagram || state.current.format !== "plantuml";
+  elements.webPreviewButton.disabled = !hasDiagram || state.current.format !== "plantuml" || !state.currentWebPreviewUrl;
+}
+
 function setMode(mode) {
   state.mode = mode;
   elements.plantumlTab.classList.toggle("active", mode === "plantuml");
   elements.previewTab.classList.toggle("active", mode === "preview");
+  elements.modelTab.classList.toggle("active", mode === "model");
   elements.sourceTab.classList.toggle("active", mode === "source");
-  elements.diagramStage.hidden = mode === "source";
+  elements.compositionTab.classList.toggle("active", mode === "composition");
+  elements.diagramStage.hidden = !["plantuml", "preview"].includes(mode);
+  elements.modelStage.hidden = mode !== "model";
   elements.sourceStage.hidden = mode !== "source";
+  elements.compositionStage.hidden = mode !== "composition";
+  updateToolbarState();
+}
+
+function setExplorerMode(mode, render = true) {
+  state.explorerMode = mode;
+  const compositionMode = mode === "compositions";
+  elements.diagramsModeButton.classList.toggle("active", !compositionMode);
+  elements.compositionsModeButton.classList.toggle("active", compositionMode);
+  elements.diagramFilters.hidden = compositionMode;
+  elements.diagramList.hidden = compositionMode;
+  elements.compositionList.hidden = !compositionMode;
+  elements.importButton.disabled = compositionMode;
+  elements.searchInput.placeholder = compositionMode ? "status, tool, value" : "class, route, plugin";
+  if (render) {
+    if (compositionMode) {
+      setMessage("");
+      renderCompositionList();
+      updateCompositionStatus();
+      if (!state.currentComposition && state.compositions.length) {
+        selectComposition(state.compositions[0].id);
+      }
+    } else {
+      renderList();
+      updateDiagramStatus();
+      if (!state.current && state.diagrams.length) {
+        selectDiagram(state.diagrams[0]);
+      }
+    }
+  }
 }
 
 function setSourceDirty(dirty) {
@@ -217,7 +283,8 @@ async function renderPlantUml(force = false) {
     }
     throw new Error(payload.error || "PlantUML render failed.");
   } catch (error) {
-    setMessage(`${error.message} Showing Markdown preview when available.`);
+    const suffix = state.currentWebPreviewUrl ? " PlantUML Web is available from the Web button." : "";
+    setMessage(`${error.message} Showing Markdown preview when available.${suffix}`);
     await renderMermaidPreview(false);
   }
 }
@@ -235,7 +302,8 @@ async function renderMermaidPreview(makeActive = true) {
     const renderId = `uml-preview-${Date.now()}`;
     const result = await mermaid.render(renderId, payload.code);
     setSvg(result.svg);
-    setMessage(`Preview from ${payload.companionPath}.`, "info");
+    const origin = payload.companionPath || payload.path || "diagram source";
+    setMessage(`Preview from ${origin}.`, "info");
   } catch (error) {
     clearCanvas(error.message);
     setMessage(error.message);
@@ -243,40 +311,151 @@ async function renderMermaidPreview(makeActive = true) {
 }
 
 function renderSource() {
+  if (!state.current) return;
   setMode("source");
   setMessage("");
   elements.sourceEditor.value = state.currentSource || "";
-  elements.sourceMeta.textContent = state.current ? `${state.current.format} - ${state.current.path}` : "";
+  elements.sourceMeta.textContent = `${state.current.format} - ${state.current.path}`;
   setSourceDirty(false);
 }
 
-async function selectDiagram(diagram) {
+function panelSection(title, bodyHtml) {
+  return `<section class="panel-section"><h3>${escapeHtml(title)}</h3>${bodyHtml}</section>`;
+}
+
+function metrics(items) {
+  return `<div class="metric-grid">${items
+    .map((item) => `<div class="metric"><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong></div>`)
+    .join("")}</div>`;
+}
+
+function renderTable(columns, rows, emptyText) {
+  if (!rows.length) {
+    return `<div class="empty-state">${escapeHtml(emptyText)}</div>`;
+  }
+  return `<table class="data-table"><thead><tr>${columns.map((column) => `<th>${escapeHtml(column.label)}</th>`).join("")}</tr></thead><tbody>${rows
+    .map(
+      (row) =>
+        `<tr>${columns
+          .map((column) => `<td>${escapeHtml(typeof column.value === "function" ? column.value(row) : row[column.value])}</td>`)
+          .join("")}</tr>`,
+    )
+    .join("")}</tbody></table>`;
+}
+
+async function renderModel() {
+  if (!state.current) return;
+  setMode("model");
+  setMessage("");
+  elements.modelPanel.innerHTML = panelSection("Model", `<div class="empty-state">Reading model...</div>`);
+  try {
+    const payload = await api(`/api/model?path=${encodeURIComponent(state.current.path)}`);
+    const warningHtml = payload.warnings.length
+      ? panelSection("Warnings", `<ul class="warning-list">${payload.warnings.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`)
+      : "";
+    const relatedHtml = payload.related.length
+      ? panelSection(
+          "Related Diagrams",
+          `<div class="related-grid">${payload.related
+            .map((diagram) => `<button type="button" data-diagram-path="${escapeHtml(diagram.path)}">${escapeHtml(diagram.title)}</button>`)
+            .join("")}</div>`,
+        )
+      : "";
+    elements.modelPanel.innerHTML = [
+      panelSection(
+        "Summary",
+        metrics([
+          { label: "Source", value: payload.sourceType },
+          { label: "Elements", value: payload.elements.length },
+          { label: "Relationships", value: payload.relationships.length },
+          { label: "Lines", value: payload.lineCount },
+          { label: "Companion", value: payload.companionPath || "none" },
+        ]),
+      ),
+      relatedHtml,
+      warningHtml,
+      panelSection(
+        "Elements",
+        renderTable(
+          [
+            { label: "Kind", value: "kind" },
+            { label: "Name", value: "label" },
+            { label: "Package", value: "package" },
+            { label: "Line", value: "line" },
+          ],
+          payload.elements,
+          "No elements recognized.",
+        ),
+      ),
+      panelSection(
+        "Relationships",
+        renderTable(
+          [
+            { label: "Source", value: "source" },
+            { label: "Kind", value: "kind" },
+            { label: "Target", value: "target" },
+            { label: "Label", value: "label" },
+            { label: "Line", value: "line" },
+          ],
+          payload.relationships,
+          "No relationships recognized.",
+        ),
+      ),
+    ].join("");
+  } catch (error) {
+    elements.modelPanel.innerHTML = panelSection("Model", `<div class="empty-state">${escapeHtml(error.message)}</div>`);
+    setMessage(error.message);
+  }
+}
+
+async function selectDiagram(diagram, preferredMode = null) {
   state.current = diagram;
+  state.currentComposition = null;
+  elements.compositionTab.hidden = true;
   elements.diagramTitle.textContent = diagram.title;
   elements.diagramPath.textContent = diagram.path;
   renderList();
-  const source = await api(`/api/source?path=${encodeURIComponent(diagram.path)}`);
-  state.currentSource = source.text;
-  elements.sourceEditor.value = source.text;
-  elements.sourceMeta.textContent = `${source.format} - ${source.path}`;
-  setSourceDirty(false);
-  if (state.mode === "source") {
-    renderSource();
-  } else if (diagram.format === "mermaid" || state.mode === "preview" || (state.renderer && !state.renderer.available)) {
-    await renderMermaidPreview(state.mode === "preview");
-  } else {
-    await renderPlantUml(false);
+  try {
+    const source = await api(`/api/source?path=${encodeURIComponent(diagram.path)}`);
+    state.currentSource = source.text;
+    state.currentWebPreviewUrl = source.webPreviewUrl || "";
+    elements.sourceEditor.value = source.text;
+    elements.sourceMeta.textContent = `${source.format} - ${source.path}`;
+    setSourceDirty(false);
+    const nextMode = preferredMode || (state.mode === "composition" ? "plantuml" : state.mode);
+    if (nextMode === "source") {
+      renderSource();
+    } else if (nextMode === "model") {
+      await renderModel();
+    } else if (diagram.format === "mermaid" || nextMode === "preview" || (state.renderer && !state.renderer.available)) {
+      await renderMermaidPreview(nextMode === "preview");
+    } else {
+      await renderPlantUml(false);
+    }
+  } catch (error) {
+    setMessage(error.message);
   }
 }
 
 function diagramSubtitle(diagram) {
-  const bits = [diagram.plugin, diagram.kind].filter(Boolean);
-  const location = bits.length ? bits.join(" / ") : diagram.fileName;
-  return `${diagram.format} - ${location}`;
+  const bits = [diagram.group, diagram.family].filter(Boolean);
+  return `${diagram.format} - ${bits.join(" / ") || diagram.fileName}`;
+}
+
+function currentDiagramSet() {
+  const query = elements.searchInput.value.trim();
+  let diagrams = query ? state.filtered : state.diagrams;
+  const scope = elements.scopeFilter.value;
+  const family = elements.familyFilter.value;
+  const group = elements.groupFilter.value;
+  if (scope !== "all") diagrams = diagrams.filter((diagram) => diagram.scope === scope);
+  if (family !== "all") diagrams = diagrams.filter((diagram) => diagram.family === family);
+  if (group !== "all") diagrams = diagrams.filter((diagram) => diagram.group === group);
+  return diagrams;
 }
 
 function renderList() {
-  const diagrams = state.filtered.length || elements.searchInput.value.trim() ? state.filtered : state.diagrams;
+  const diagrams = currentDiagramSet();
   elements.diagramList.innerHTML = "";
   if (!diagrams.length) {
     const empty = document.createElement("div");
@@ -285,30 +464,82 @@ function renderList() {
     elements.diagramList.appendChild(empty);
     return;
   }
+  const grouped = new Map();
   for (const diagram of diagrams) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "diagram-item";
-    button.classList.toggle("active", state.current && state.current.path === diagram.path);
-    const title = document.createElement("strong");
-    title.textContent = diagram.title;
-    const subtitle = document.createElement("span");
-    subtitle.textContent = diagramSubtitle(diagram);
-    button.append(title, subtitle);
-    if (diagram.matchCount) {
-      const matchCount = document.createElement("span");
-      matchCount.textContent = `${diagram.matchCount} matches`;
-      button.appendChild(matchCount);
-      for (const match of diagram.matches || []) {
-        const line = document.createElement("div");
-        line.className = "match-line";
-        line.textContent = `${match.fileKind}:${match.line} ${match.text}`;
-        button.appendChild(line);
-      }
-    }
-    button.addEventListener("click", () => selectDiagram(diagram));
-    elements.diagramList.appendChild(button);
+    const key = `${diagram.group} / ${diagram.family}`;
+    if (!grouped.has(key)) grouped.set(key, []);
+    grouped.get(key).push(diagram);
   }
+  for (const [groupName, groupDiagrams] of grouped) {
+    const heading = document.createElement("div");
+    heading.className = "list-group-title";
+    heading.textContent = groupName;
+    elements.diagramList.appendChild(heading);
+    for (const diagram of groupDiagrams) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "diagram-item";
+      button.classList.toggle("active", state.current && state.current.path === diagram.path);
+      const title = document.createElement("strong");
+      title.textContent = diagram.title;
+      const subtitle = document.createElement("span");
+      subtitle.textContent = diagramSubtitle(diagram);
+      const badges = document.createElement("div");
+      badges.className = "diagram-badges";
+      for (const label of [diagram.scope, diagram.hasCompanion ? "md" : "", diagram.isLibrary ? "library" : ""]) {
+        if (!label) continue;
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = label;
+        badges.appendChild(badge);
+      }
+      button.append(title, subtitle, badges);
+      if (diagram.matchCount) {
+        const matchCount = document.createElement("span");
+        matchCount.textContent = `${diagram.matchCount} matches`;
+        button.appendChild(matchCount);
+        for (const match of diagram.matches || []) {
+          const line = document.createElement("div");
+          line.className = "match-line";
+          line.textContent = `${match.fileKind}:${match.line} ${match.text}`;
+          button.appendChild(line);
+        }
+      }
+      button.addEventListener("click", () => selectDiagram(diagram));
+      elements.diagramList.appendChild(button);
+    }
+  }
+}
+
+function setSelectOptions(select, values, allLabel) {
+  const current = select.value;
+  select.innerHTML = `<option value="all">${escapeHtml(allLabel)}</option>${values
+    .map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`)
+    .join("")}`;
+  select.value = values.includes(current) ? current : "all";
+}
+
+function updateFilters() {
+  const families = [...new Set(state.diagrams.map((diagram) => diagram.family).filter(Boolean))].sort();
+  const groups = [...new Set(state.diagrams.map((diagram) => diagram.group).filter(Boolean))].sort();
+  setSelectOptions(elements.familyFilter, families, "All families");
+  setSelectOptions(elements.groupFilter, groups, "All groups");
+}
+
+function updateDiagramStatus() {
+  elements.diagramCount.textContent = `${state.diagrams.length} diagrams`;
+  elements.rendererStatus.textContent = state.renderer && state.renderer.available
+    ? `${state.umlRoot} - PlantUML renderer: ${state.renderer.label}`
+    : `${state.umlRoot} - ${state.renderer ? state.renderer.reason : "Renderer status unknown"}`;
+  elements.rendererStatus.classList.toggle("warning", Boolean(state.renderer && !state.renderer.available));
+}
+
+function updateCompositionStatus() {
+  const payload = state.compositionPayload;
+  elements.diagramCount.textContent = `${state.compositions.length} compositions`;
+  const warnings = payload && payload.warnings && payload.warnings.length ? ` - ${payload.warnings[0]}` : "";
+  elements.rendererStatus.textContent = payload ? `Composition source: ${payload.source}${warnings}` : "Composition source not loaded.";
+  elements.rendererStatus.classList.toggle("warning", Boolean(payload && payload.warnings && payload.warnings.length));
 }
 
 async function refreshDiagrams() {
@@ -316,15 +547,27 @@ async function refreshDiagrams() {
   state.diagrams = payload.diagrams;
   state.filtered = [];
   state.renderer = payload.renderer;
-  elements.diagramCount.textContent = `${payload.count} diagrams`;
-  elements.rendererStatus.textContent = payload.renderer.available
-    ? `${payload.umlRoot} - PlantUML renderer: ${payload.renderer.label}`
-    : `${payload.umlRoot} - ${payload.renderer.reason}`;
-  elements.rendererStatus.classList.toggle("warning", !payload.renderer.available);
+  state.umlRoot = payload.umlRoot;
+  updateFilters();
+  updateDiagramStatus();
   renderList();
+  await refreshCompositions(false);
   if (!state.current && state.diagrams.length) {
     await selectDiagram(state.diagrams[0]);
   }
+  if (state.explorerMode === "compositions") {
+    updateCompositionStatus();
+    renderCompositionList();
+  }
+}
+
+async function refreshCompositions(applyStatus = true) {
+  const query = state.explorerMode === "compositions" ? elements.searchInput.value.trim() : "";
+  const payload = await api(`/api/compositions?q=${encodeURIComponent(query)}`);
+  state.compositionPayload = payload;
+  state.compositions = payload.compositions || [];
+  if (applyStatus) updateCompositionStatus();
+  renderCompositionList();
 }
 
 async function saveSource() {
@@ -336,6 +579,7 @@ async function saveSource() {
       text: elements.sourceEditor.value,
     });
     state.currentSource = payload.text;
+    state.currentWebPreviewUrl = payload.webPreviewUrl || "";
     state.current = { ...state.current, title: payload.title, format: payload.format };
     elements.diagramTitle.textContent = payload.title;
     setSourceDirty(false);
@@ -378,6 +622,10 @@ async function importDiagram(event) {
 
 async function runSearch() {
   const query = elements.searchInput.value.trim();
+  if (state.explorerMode === "compositions") {
+    await refreshCompositions(true);
+    return;
+  }
   if (!query) {
     state.filtered = [];
     renderList();
@@ -396,12 +644,137 @@ function debounce(callback, delay) {
   };
 }
 
+function renderCompositionList() {
+  elements.compositionList.innerHTML = "";
+  if (!state.compositions.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "No compositions found.";
+    elements.compositionList.appendChild(empty);
+    return;
+  }
+  for (const composition of state.compositions) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "diagram-item";
+    button.classList.toggle("active", state.currentComposition && state.currentComposition.id === composition.id);
+    const title = document.createElement("strong");
+    title.textContent = composition.title;
+    const subtitle = document.createElement("span");
+    subtitle.textContent = `${composition.level} - ${composition.mode}`;
+    const badges = document.createElement("div");
+    badges.className = "diagram-badges";
+    for (const label of [composition.status, ...composition.tools.slice(0, 3)]) {
+      if (!label) continue;
+      const badge = document.createElement("span");
+      badge.className = "badge";
+      badge.textContent = label;
+      badges.appendChild(badge);
+    }
+    const summary = document.createElement("small");
+    summary.textContent = composition.valueSummary || "";
+    button.append(title, subtitle, badges, summary);
+    button.addEventListener("click", () => selectComposition(composition.id));
+    elements.compositionList.appendChild(button);
+  }
+}
+
+function renderLinkChips(items) {
+  if (!items || !items.length) return `<span class="badge">none</span>`;
+  return `<div class="link-list">${items.map((item) => `<span>${escapeHtml(item.label || item.path)}<br><small>${escapeHtml(item.path || "")}</small></span>`).join("")}</div>`;
+}
+
+function renderTools(items) {
+  if (!items || !items.length) return `<span class="badge">none</span>`;
+  return `<div class="tool-list">${items.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>`;
+}
+
+async function selectComposition(compositionId) {
+  try {
+    const payload = await api(`/api/composition?id=${encodeURIComponent(compositionId)}`);
+    const composition = payload.composition;
+    setMessage("");
+    state.currentComposition = composition;
+    state.current = null;
+    elements.compositionTab.hidden = false;
+    elements.diagramTitle.textContent = composition.title;
+    elements.diagramPath.textContent = `${composition.level} - ${composition.status}`;
+    setMode("composition");
+    renderCompositionList();
+    renderCompositionDetail(composition, payload.warnings || []);
+  } catch (error) {
+    setMessage(error.message);
+  }
+}
+
+function renderCompositionDetail(composition, warnings) {
+  const warningHtml = warnings.length
+    ? panelSection("Warnings", `<ul class="warning-list">${warnings.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`)
+    : "";
+  const diagramHtml = composition.diagramInfos && composition.diagramInfos.length
+    ? `<div class="related-grid">${composition.diagramInfos
+        .map((diagram) => `<button type="button" data-diagram-path="${escapeHtml(diagram.path)}">${escapeHtml(diagram.title)}</button>`)
+        .join("")}</div>`
+    : renderLinkChips(composition.diagrams);
+  elements.compositionPanel.innerHTML = [
+    `<section class="panel-section composition-hero"><h3>${escapeHtml(composition.title)}</h3><p>${escapeHtml(composition.valueSummary)}</p>${metrics([
+      { label: "Status", value: composition.status },
+      { label: "Level", value: composition.level },
+      { label: "Mode", value: composition.mode },
+      { label: "Source", value: composition.sourcePath || "manifest" },
+    ])}</section>`,
+    panelSection("Tools", renderTools(composition.tools)),
+    panelSection("Required", renderTools(composition.requiredTools)),
+    panelSection("Optional", renderTools(composition.optionalTools)),
+    panelSection("UML Views", diagramHtml),
+    panelSection("Docs", renderLinkChips(composition.docs)),
+    panelSection("Owning SAD Decisions", renderLinkChips(composition.owningSadDecisions)),
+    panelSection("Contracts", renderLinkChips(composition.contracts)),
+    panelSection("Gates", renderLinkChips(composition.gates)),
+    panelSection("Evidence", renderLinkChips(composition.evidence)),
+    panelSection("Limits", renderTools(composition.limits)),
+    warningHtml,
+  ].join("");
+}
+
+function openSvg() {
+  if (!state.current || state.current.format !== "plantuml") return;
+  window.open(`/api/svg?path=${encodeURIComponent(state.current.path)}`, "_blank", "noopener");
+}
+
+function openWebPreview() {
+  if (!state.currentWebPreviewUrl) return;
+  window.open(state.currentWebPreviewUrl, "_blank", "noopener");
+}
+
+function toggleFullscreen() {
+  const target = elements.diagramStage;
+  if (document.fullscreenElement === target) {
+    document.exitFullscreen();
+    return;
+  }
+  if (target.requestFullscreen) {
+    target.requestFullscreen();
+  }
+}
+
 elements.refreshButton.addEventListener("click", refreshDiagrams);
 elements.importButton.addEventListener("click", openImportDialog);
+elements.diagramsModeButton.addEventListener("click", () => setExplorerMode("diagrams"));
+elements.compositionsModeButton.addEventListener("click", () => setExplorerMode("compositions"));
 elements.searchInput.addEventListener("input", debounce(runSearch, 180));
+elements.scopeFilter.addEventListener("change", renderList);
+elements.familyFilter.addEventListener("change", renderList);
+elements.groupFilter.addEventListener("change", renderList);
 elements.plantumlTab.addEventListener("click", () => renderPlantUml(false));
 elements.previewTab.addEventListener("click", () => renderMermaidPreview(true));
+elements.modelTab.addEventListener("click", renderModel);
 elements.sourceTab.addEventListener("click", renderSource);
+elements.compositionTab.addEventListener("click", () => {
+  if (state.currentComposition) {
+    setMode("composition");
+  }
+});
 elements.saveSourceButton.addEventListener("click", saveSource);
 elements.sourceEditor.addEventListener("input", () => setSourceDirty(elements.sourceEditor.value !== state.currentSource));
 elements.importForm.addEventListener("submit", importDiagram);
@@ -423,6 +796,9 @@ elements.resetButton.addEventListener("click", () => {
   applyTransform();
 });
 elements.rerenderButton.addEventListener("click", () => renderPlantUml(true));
+elements.openSvgButton.addEventListener("click", openSvg);
+elements.webPreviewButton.addEventListener("click", openWebPreview);
+elements.fullscreenButton.addEventListener("click", toggleFullscreen);
 
 elements.diagramStage.addEventListener("wheel", (event) => {
   event.preventDefault();
@@ -452,6 +828,35 @@ elements.diagramStage.addEventListener("pointerup", (event) => {
 elements.diagramStage.addEventListener("pointercancel", () => {
   state.dragging = false;
   elements.diagramStage.classList.remove("dragging");
+});
+
+elements.modelPanel.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-diagram-path]");
+  if (!button) return;
+  const diagram = state.diagrams.find((item) => item.path === button.dataset.diagramPath);
+  if (diagram) {
+    setExplorerMode("diagrams", false);
+    await selectDiagram(diagram, "plantuml");
+    setExplorerMode("diagrams", false);
+  }
+});
+
+elements.compositionPanel.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-diagram-path]");
+  if (!button) return;
+  const diagram = state.diagrams.find((item) => item.path === button.dataset.diagramPath);
+  if (diagram) {
+    setExplorerMode("diagrams", false);
+    await selectDiagram(diagram, "plantuml");
+    setExplorerMode("diagrams", false);
+  }
+});
+
+document.addEventListener("fullscreenchange", () => {
+  const active = document.fullscreenElement === elements.diagramStage;
+  elements.diagramStage.classList.toggle("is-fullscreen", active);
+  elements.fullscreenButton.textContent = active ? "Exit" : "Full";
+  window.setTimeout(fitToView, 80);
 });
 
 window.addEventListener("keydown", (event) => {

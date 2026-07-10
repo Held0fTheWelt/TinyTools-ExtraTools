@@ -26,4 +26,4 @@ COPY static ./static
 
 EXPOSE 8765
 
-ENTRYPOINT ["python", "/opt/uml-browser/uml_browser.py", "--host", "0.0.0.0", "--port", "8765", "--uml-root", "/workspace/UML", "--cache-root", "/workspace/Saved/UmlBrowser"]
+ENTRYPOINT ["python", "/opt/uml-browser/uml_browser.py", "--host", "0.0.0.0", "--port", "8765", "--uml-root", "/workspace/Git/UML", "--cache-root", "/workspace/Saved/UmlBrowser"]

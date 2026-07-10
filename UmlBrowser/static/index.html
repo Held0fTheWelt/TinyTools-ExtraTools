@@ -20,13 +20,34 @@
           </div>
         </header>
 
+        <div class="sidebar-mode" role="tablist" aria-label="Explorer mode">
+          <button id="diagramsModeButton" class="tab active" type="button">Diagrams</button>
+          <button id="compositionsModeButton" class="tab" type="button">Compositions</button>
+        </div>
+
         <label class="search-box">
           <span>Search</span>
           <input id="searchInput" type="search" autocomplete="off" placeholder="class, route, plugin">
         </label>
 
+        <div id="diagramFilters" class="filters">
+          <select id="scopeFilter" aria-label="Diagram scope">
+            <option value="all">All scopes</option>
+            <option value="plugin">Plugin diagrams</option>
+            <option value="project">Project diagrams</option>
+            <option value="library">Libraries</option>
+          </select>
+          <select id="familyFilter" aria-label="Diagram family">
+            <option value="all">All families</option>
+          </select>
+          <select id="groupFilter" aria-label="Diagram group">
+            <option value="all">All groups</option>
+          </select>
+        </div>
+
         <div id="rendererStatus" class="renderer-status"></div>
         <div id="diagramList" class="diagram-list" aria-label="UML diagrams"></div>
+        <div id="compositionList" class="diagram-list" aria-label="UML compositions" hidden></div>
       </aside>
 
       <main class="workspace">
@@ -38,7 +59,9 @@
           <div class="view-tabs" role="tablist" aria-label="View mode">
             <button id="plantumlTab" class="tab active" type="button">PlantUML</button>
             <button id="previewTab" class="tab" type="button">Preview</button>
+            <button id="modelTab" class="tab" type="button">Model</button>
             <button id="sourceTab" class="tab" type="button">Source</button>
+            <button id="compositionTab" class="tab" type="button" hidden>Composition</button>
           </div>
           <div class="toolbar" aria-label="Diagram controls">
             <button id="zoomOutButton" class="icon-button" title="Zoom out" aria-label="Zoom out">-</button>
@@ -46,6 +69,9 @@
             <button id="fitButton" class="tool-button" title="Fit diagram" type="button">Fit</button>
             <button id="resetButton" class="tool-button" title="Reset zoom" type="button">100%</button>
             <button id="rerenderButton" class="tool-button" title="Render again" type="button">Render</button>
+            <button id="openSvgButton" class="tool-button" title="Open SVG" type="button">SVG</button>
+            <button id="webPreviewButton" class="tool-button" title="Open PlantUML Web preview" type="button">Web</button>
+            <button id="fullscreenButton" class="tool-button" title="Fullscreen diagram" type="button">Full</button>
           </div>
         </header>
 
@@ -55,12 +81,20 @@
           <div id="diagramCanvas" class="diagram-canvas"></div>
         </section>
 
+        <section id="modelStage" class="model-stage" hidden>
+          <div id="modelPanel" class="model-panel"></div>
+        </section>
+
         <section id="sourceStage" class="source-stage" hidden>
           <div class="source-toolbar">
             <span id="sourceMeta"></span>
             <button id="saveSourceButton" class="tool-button" type="button" disabled>Save Source</button>
           </div>
           <textarea id="sourceEditor" spellcheck="false" aria-label="Diagram source"></textarea>
+        </section>
+
+        <section id="compositionStage" class="composition-stage" hidden>
+          <div id="compositionPanel" class="composition-panel"></div>
         </section>
       </main>
     </div>

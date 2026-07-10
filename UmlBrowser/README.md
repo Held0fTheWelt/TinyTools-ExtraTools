@@ -2,9 +2,27 @@
 
 Local browser for PlantUML and Mermaid diagram folders.
 
-When the repository-level `UML/` folder is available it is used by default. When
-the tool is copied elsewhere, it falls back to the bundled `samples/` folder so
-the browser is usable immediately without the original project.
+When the project `Git/UML/` folder is available it is used by default. The
+standalone Python path also accepts a repository-level `UML/` folder and then
+falls back to `AKDB/export/uml/` or the bundled `samples/` folder so the browser
+is usable immediately without the original project.
+
+## UML exploration surface
+
+The browser is intentionally narrower than Tiny Tool Observatory: it only
+explores UML, so the UML surface is denser.
+
+- **Diagrams** keeps the file index, now grouped and filterable by scope, family,
+  and group/plugin.
+- **Compositions** reads `UML/Project/tiny-tools-compositions/` and shows
+  solution slices with status, level, tools, value, evidence, and related UML
+  views. If `composition.manifest.json` exists it is used; otherwise the view is
+  synthesized from the Markdown companions.
+- Diagram detail supports PlantUML/Mermaid rendering, pan, wheel zoom, fit,
+  reset, fullscreen, direct SVG open, PlantUML Web preview, source editing, and a
+  read-only model summary.
+- The **Model** tab extracts recognized elements, relationships, warnings,
+  Markdown companion state, and related diagrams for quick UML research.
 
 ## Start with Docker status window
 
@@ -30,7 +48,12 @@ Use another port when needed:
 .\Tools\UmlBrowser\run_uml_browser.ps1 -Port 8877
 ```
 
-The Docker image installs Java, Graphviz, and a pinned PlantUML jar inside the container. Your host only needs Docker Desktop. The default PlantUML version is set in [Dockerfile](Dockerfile) via `PLANTUML_VERSION`.
+The Docker script mounts the workspace at `/workspace`, prefers
+`/workspace/Git/UML`, then `/workspace/UML`, and falls back to bundled samples
+when neither exists. The Docker image installs Java, Graphviz, and a pinned
+PlantUML jar inside the container. Your host only needs Docker Desktop. The
+default PlantUML version is set in [Dockerfile](Dockerfile) via
+`PLANTUML_VERSION`.
 
 Update the bundled PlantUML version by changing `PLANTUML_VERSION` and `PLANTUML_SHA256` in the Dockerfile, then run the script again.
 
@@ -61,7 +84,7 @@ The non-Docker Python workflow can render when PlantUML is available locally:
 - `PLANTUML_JAR` pointing to `plantuml.jar` and `java` on `PATH`; or
 - `--plantuml C:\path\to\plantuml.jar`.
 
-Rendered SVG files are cached under `Saved/UmlBrowser/svg/`, which is already outside the versioned UML source tree.
+Rendered SVG files are cached under `Saved/UmlBrowser/svg/`, which is already outside the versioned UML source tree. PlantUML rendering runs from the source file's folder so relative `!include` paths such as shared C4 includes resolve like they do in an IDE.
 
 Mermaid files render directly in the browser preview tab. For PlantUML diagrams,
 when PlantUML is not available, the UI falls back to the first fenced `mermaid`

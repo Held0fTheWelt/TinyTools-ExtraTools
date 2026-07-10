@@ -10,6 +10,19 @@ $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = (Resolve-Path -LiteralPath (Join-Path $ScriptDir "..\..")).Path
 $SavedRoot = Join-Path $RepoRoot "Saved\UmlBrowser"
+$ProjectGitUmlRoot = Join-Path $RepoRoot "Git\UML"
+$ProjectUmlRoot = Join-Path $RepoRoot "UML"
+
+if (Test-Path -LiteralPath $ProjectGitUmlRoot) {
+    $HostUmlRoot = $ProjectGitUmlRoot
+    $ContainerUmlRoot = "/workspace/Git/UML"
+} elseif (Test-Path -LiteralPath $ProjectUmlRoot) {
+    $HostUmlRoot = $ProjectUmlRoot
+    $ContainerUmlRoot = "/workspace/UML"
+} else {
+    $HostUmlRoot = ""
+    $ContainerUmlRoot = "/opt/uml-browser/samples"
+}
 
 function Write-Step {
     param([string]$Message)
@@ -48,6 +61,11 @@ function Find-FreePort {
 
 Write-Host "Tiny Tool UML Browser Docker status window" -ForegroundColor Green
 Write-Host "Repo: $RepoRoot"
+if ($HostUmlRoot) {
+    Write-Host "UML:  $HostUmlRoot"
+} else {
+    Write-Host "UML:  bundled samples (no Git\UML or UML folder found)" -ForegroundColor Yellow
+}
 
 Write-Step "Checking Docker"
 Invoke-Checked docker @("info")
@@ -83,5 +101,7 @@ Invoke-Checked docker @(
     "--name", $ContainerName,
     "-p", "${HostPort}:8765",
     "-v", "${RepoRoot}:/workspace",
-    $ImageName
+    $ImageName,
+    "--uml-root", $ContainerUmlRoot,
+    "--cache-root", "/workspace/Saved/UmlBrowser"
 )

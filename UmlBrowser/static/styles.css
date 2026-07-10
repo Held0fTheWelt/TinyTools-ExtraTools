@@ -47,7 +47,7 @@ input {
   background: var(--panel);
   border-right: 1px solid var(--line);
   display: grid;
-  grid-template-rows: auto auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto auto minmax(0, 1fr);
   min-width: 0;
 }
 
@@ -63,6 +63,14 @@ input {
 .header-actions {
   display: flex;
   gap: 6px;
+}
+
+.sidebar-mode {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 6px;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px 16px;
 }
 
 .sidebar-header h1,
@@ -102,6 +110,27 @@ input {
   width: 100%;
 }
 
+.filters {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr;
+  padding: 10px 16px;
+}
+
+.filters[hidden] {
+  display: none;
+}
+
+.filters select {
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  min-height: 34px;
+  padding: 6px 8px;
+  width: 100%;
+}
+
 .renderer-status {
   border-bottom: 1px solid var(--line);
   color: var(--muted);
@@ -118,6 +147,19 @@ input {
 .diagram-list {
   overflow: auto;
   padding: 8px;
+}
+
+.diagram-list[hidden] {
+  display: none;
+}
+
+.list-group-title {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+  padding: 10px 10px 5px;
+  text-transform: uppercase;
 }
 
 .diagram-item {
@@ -149,10 +191,28 @@ input {
 }
 
 .diagram-item span,
+.diagram-item small,
 .match-line {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.3;
+}
+
+.diagram-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.badge {
+  background: #eef2f7;
+  border: 1px solid #d8dee8;
+  border-radius: 999px;
+  color: #445066;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 6px;
+  width: max-content;
 }
 
 .match-line {
@@ -186,7 +246,12 @@ input {
 .toolbar {
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
+}
+
+.toolbar {
+  justify-content: flex-end;
 }
 
 .tab,
@@ -233,7 +298,9 @@ input {
 }
 
 .diagram-stage,
-.source-stage {
+.source-stage,
+.model-stage,
+.composition-stage {
   min-height: 0;
   overflow: hidden;
 }
@@ -250,6 +317,11 @@ input {
 
 .diagram-stage.dragging {
   cursor: grabbing;
+}
+
+.diagram-stage.is-fullscreen {
+  height: 100vh;
+  width: 100vw;
 }
 
 .diagram-canvas {
@@ -281,6 +353,125 @@ input {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   overflow: auto;
+}
+
+.model-stage,
+.composition-stage {
+  background: #fbfcfd;
+  overflow: auto;
+  padding: 16px;
+}
+
+.model-panel,
+.composition-panel {
+  display: grid;
+  gap: 14px;
+  max-width: 1180px;
+}
+
+.panel-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.panel-section h3 {
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+
+.metric-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.metric {
+  background: #f7f9fb;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+}
+
+.metric span {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.metric strong {
+  font-size: 16px;
+}
+
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.data-table th,
+.data-table td {
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  padding: 7px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.data-table th {
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.related-grid,
+.link-list,
+.tool-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.related-grid button,
+.link-list span,
+.tool-list span {
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 6px 8px;
+}
+
+.related-grid button {
+  cursor: pointer;
+}
+
+.related-grid button:hover {
+  border-color: var(--accent);
+}
+
+.warning-list {
+  color: var(--warn);
+  margin: 0;
+  padding-left: 18px;
+}
+
+.composition-hero {
+  display: grid;
+  gap: 10px;
+}
+
+.composition-hero h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.composition-hero p {
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0;
 }
 
 .source-toolbar {
